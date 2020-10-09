@@ -1,0 +1,68 @@
+{
+	"name": "language-pascal",
+	"displayName": "Pascal magic",
+	"description": "High-quality Pascal highlighting",
+	"version": "0.0.1",
+	"publisher": "theangryepicbanana",
+	"engines": {
+		"vscode": "^1.47.3"
+	},
+	"categories": [
+		"Programming Languages",
+		"Snippets"
+	],
+	"keywords": [
+		"pascal",
+		"free pascal",
+		"object pascal",
+		"delphi",
+		"fpc",
+		"objfpc"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "pascal",
+				"aliases": [
+					"Pascal",
+					"Object Pascal",
+					"Free Pascal",
+					"FPC",
+					"Delphi",
+					"pascal",
+					"object pascal",
+					"free pascal",
+					"fpc",
+					"delphi"
+				],
+				"extensions": [
+					".pas",
+					".pp",
+					".dfm",
+					".dpr",
+					".dpk",
+					".lfm",
+					".lpr"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "pascal",
+				"scopeName": "source.pascal",
+				"path": "./syntaxes/pascal.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "pascal",
+				"path": "./snippets/pascal.json"
+			}
+		]
+	},
+	"scripts": {
+		"compile-syntax": "~/Documents/reon/bin/reon tj syntaxes/pascal.reon",
+		"compile-snippets": "~/Documents/reon/bin/reon tj snippets/pascal.reon"
+	}
+}

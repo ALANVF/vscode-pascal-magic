@@ -1,0 +1,84 @@
+{
+	"begin...end": {
+		"prefix": "begin",
+		"body": ["begin", "\t$0", "end;"],
+		"description": "begin...end block"
+	},
+	"case...end": {
+		"prefix": "caseof",
+		"body": ["case $1 of", "\t$0", "end;"],
+		"description": "case statement"
+	},
+	"record (empty)": {
+		"prefix": "recorde",
+		"body": ["T$1 = record", "\t$0", "end;"]
+	},
+	"object (base)": {
+		"prefix": "objectb",
+		"body": ["T$1 = object", "\t$0", "end;"]
+	},
+	"object (derived)": {
+		"prefix": "objectd",
+		"body": ["T$1 = object($2)", "\t$0", "end;"]
+	},
+	"class (base)": {
+		"prefix": "classb",
+		"body": ["T$1 = class", "\t$0", "end;"]
+	},
+	"class (derived)": {
+		"prefix": "classd",
+		"body": ["T$1 = class($2)", "\t$3", "end;"]
+	},
+	"interface (base)": {
+		"prefix": "interb",
+		"body": ["I$1 = interface", "\t$0", "end;"]
+	},
+	"interface (derived)": {
+		"prefix": "interd",
+		"body": ["T$1 = interface($2)", "\t$0", "end;"]
+	},
+	"procedure decl": {
+		"prefix": "procd",
+		"body": ["procedure ${1:name}($2);$0"]
+	},
+	"class procedure decl": {
+		"prefix": "cprocd",
+		"body": ["class procedure ${1:name}($2);$0"]
+	},
+	"function decl": {
+		"prefix": "funcd",
+		"body": ["function ${1:name}($2): ${3:return};$0"]
+	},
+	"class function decl": {
+		"prefix": "cfuncd",
+		"body": ["class function ${1:name}($2): ${3:return};$0"]
+	},
+	"operator decl": {
+		"prefix": "operd",
+		"body": ["operator ${1:name}($2): ${3:return};$0"]
+	},
+	"class operator decl": {
+		"prefix": "coperd",
+		"body": ["class operator ${1:name}($2);$0"]
+	},
+	"constructor decl": {
+		"prefix": "ctord",
+		"body": ["constructor ${1:name}($2);$0"]
+	},
+	"class constructor decl": {
+		"prefix": "cctord",
+		"body": ["class constructor ${1:name}($2);$0"]
+	},
+	"destructor decl": {
+		"prefix": "dtord",
+		"body": ["destructor ${1:name};"]
+	},
+	"default destructor decl": {
+		"prefix": "ddtord",
+		"body": ["destructor destroy; override;$0"]
+	},
+	"unit": {
+		"prefix": "unitb",
+		"body": ["unit ${1:unitName};", "", "interface", "", "$0", "", "implementation", "", "end."]
+	}
+}

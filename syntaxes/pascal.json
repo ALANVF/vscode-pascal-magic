@@ -1,0 +1,3827 @@
+{
+	"name": "Pascal",
+	"scopeName": "source.pascal",
+	"fileTypes": ["pas", "pp"],
+	"patterns": [
+		{
+			"include": "#empty"
+		},
+		{
+			"match": "\\.",
+			"name": "keyword.operator.pascal"
+		},
+		{
+			"include": "#unit"
+		},
+		{
+			"include": "#program"
+		},
+		{
+			"include": "#library"
+		},
+		{
+			"include": "#top-level"
+		},
+		{
+			"include": "#invalid"
+		}
+	],
+	"repository": {
+		"empty": {
+			"patterns": [
+				{
+					"include": "#line"
+				},
+				{
+					"include": "#space"
+				},
+				{
+					"include": "#line-comment"
+				},
+				{
+					"include": "#block-comment"
+				},
+				{
+					"include": "#preprocessor"
+				}
+			]
+		},
+		"const-exprs.record-or-array.record": {
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*(?=\\s*(?:(?:\\(\\*(?:\\*+(?!\\))|[^*]+)*\\*\\)|\\{[^\\{\\}]*\\})\\s*)*:(?!=))",
+					"beginCaptures": {
+						"0": {
+							"name": "variable.property.pascal"
+						}
+					},
+					"end": ";|(?=\\))",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": ":(?!=)",
+							"beginCaptures": {
+								"0": {
+									"name": "operator.pascal"
+								}
+							},
+							"end": "(?=[;)])",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#const-exprs"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"const-exprs.record-or-array.array": {
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#const-exprs"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"const-exprs.record-or-array": {
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.begin.pascal"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "(?=&?[a-zA-Z_]\\w*\\s*(?:(?:\\(\\*(?:\\*+(?!\\))|[^*]+)*\\*\\)|\\{[^\\{\\}]*\\})\\s*)*:(?!=))",
+					"end": "(?=\\))",
+					"patterns": [
+						{
+							"include": "#const-exprs.record-or-array.record"
+						}
+					]
+				},
+				{
+					"begin": "(?=.)",
+					"end": "(?=\\))",
+					"patterns": [
+						{
+							"include": "#const-exprs.record-or-array.array"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"const-exprs": {
+			"patterns": [
+				{
+					"include": "#constants"
+				},
+				{
+					"include": "#builtins.intrinsic"
+				},
+				{
+					"include": "#builtins.const"
+				},
+				{
+					"include": "#const-exprs.record-or-array"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"include": "#basic-type.builtin"
+				},
+				{
+					"include": "#const-name"
+				}
+			]
+		},
+		"exprs.call-generic-fn": {
+			"begin": "((?<=\\b)(?<!&)specialize\\s+)(&?[a-zA-Z_]\\w*(?=<\\S))",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				},
+				"2": {
+					"name": "entity.name.function.pascal"
+				}
+			},
+			"end": "(?<=>)",
+			"patterns": [
+				{
+					"include": "#generic-args"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"exprs": {
+			"patterns": [
+				{
+					"include": "#builtins"
+				},
+				{
+					"include": "#constants"
+				},
+				{
+					"include": "#basic-type.builtin"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"match": "&?[a-zA-Z_]\\w*(?=\\s*\\()",
+					"name": "entity.name.function.pascal"
+				},
+				{
+					"include": "#exprs.call-generic-fn"
+				},
+				{
+					"include": "#name"
+				},
+				{
+					"include": "#paren"
+				},
+				{
+					"include": "#subscript"
+				},
+				{
+					"include": "#illegal"
+				}
+			]
+		},
+		"top-level": {
+			"patterns": [
+				{
+					"include": "#routine"
+				},
+				{
+					"include": "#types-section"
+				},
+				{
+					"include": "#vars-section"
+				},
+				{
+					"include": "#consts-section"
+				},
+				{
+					"include": "#property-section"
+				},
+				{
+					"include": "#uses-section"
+				},
+				{
+					"include": "#labels-section"
+				},
+				{
+					"include": "#resourcestrings-section"
+				},
+				{
+					"include": "#block"
+				},
+				{
+					"include": "#asm"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#name"
+				}
+			]
+		},
+		"statements": {
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#colon"
+				},
+				{
+					"include": "#case-of"
+				},
+				{
+					"include": "#try-except-finally"
+				},
+				{
+					"include": "#block"
+				},
+				{
+					"include": "#asm"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"match": "(&?[a-zA-Z_]\\w*|\\d+)\\s*(:(?!=))",
+					"captures": {
+						"1": {
+							"name": "variable.label.pascal"
+						},
+						"2": {
+							"name": "keyword.operator.pascal"
+						}
+					}
+				},
+				{
+					"include": "#exprs"
+				}
+			]
+		},
+		"space": {
+			"match": "\\s+",
+			"name": "text.pascal"
+		},
+		"line": {
+			"match": "\\n$",
+			"name": "text.pascal"
+		},
+		"line-comment": {
+			"match": "//.*$",
+			"name": "comment.pascal"
+		},
+		"block-comment": {
+			"patterns": [
+				{
+					"begin": "\\(\\*(?!\\$)",
+					"beginCaptures": {
+						"0": {
+							"name": "comment.pascal"
+						}
+					},
+					"end": "\\*\\)",
+					"endCaptures": {
+						"0": {
+							"name": "comment.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"match": "[^*]+",
+							"name": "comment.pascal"
+						},
+						{
+							"match": "\\*+(?!\\))",
+							"name": "comment.pascal"
+						}
+					]
+				},
+				{
+					"begin": "\\{(?!\\$)",
+					"beginCaptures": {
+						"0": {
+							"name": "comment.pascal"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "comment.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"match": "[^}]+",
+							"name": "comment.pascal"
+						}
+					]
+				}
+			]
+		},
+		"preprocessor": {
+			"patterns": [
+				{
+					"begin": "(\\(\\*)(\\$\\w+)",
+					"beginCaptures": {
+						"1": {
+							"name": "comment.pascal"
+						},
+						"2": {
+							"name": "keyword.other.pascal"
+						}
+					},
+					"end": "\\*\\)",
+					"endCaptures": {
+						"0": {
+							"name": "comment.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"match": "[^*]+",
+							"name": "comment.pascal"
+						},
+						{
+							"match": "\\*+(?!\\))",
+							"name": "comment.pascal"
+						}
+					]
+				},
+				{
+					"begin": "(\\{)(\\$\\w+)([+\\-]?)",
+					"beginCaptures": {
+						"1": {
+							"name": "comment.pascal"
+						},
+						"2": {
+							"name": "keyword.other.pascal"
+						},
+						"3": {
+							"name": "keyword.operator.pascal"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "comment.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"match": "[^}]+",
+							"name": "comment.pascal"
+						}
+					]
+				}
+			]
+		},
+		"comma": {
+			"match": ",",
+			"name": "punctuation.separator.comma.pascal"
+		},
+		"colon": {
+			"match": ":(?!=)",
+			"name": "punctuation.separator.colon.pascal"
+		},
+		"semicolon": {
+			"match": ";",
+			"name": "punctuation.terminator.pascal"
+		},
+		"dot": {
+			"match": "\\.",
+			"name": "operator.pascal"
+		},
+		"invalid": {
+			"match": ".",
+			"name": "invalid.illegal.pascal"
+		},
+		"illegal": {
+			"match": "[?\\\\`\"\\&]",
+			"name": "invalid.illegal.pascal"
+		},
+		"label": {
+			"match": "(?<=^\\s*)(&?\\w+)\\s*(:(?!=))",
+			"captures": {
+				"1": {
+					"name": "variable.label.pascal"
+				},
+				"2": {
+					"name": "keyword.operator.pascal"
+				}
+			}
+		},
+		"builtins.intrinsic": {
+			"match": "(?xi)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:\n\t\t\t\t break\n\t\t\t\t|continue\n\t\t\t\t|dec|default|dispose\n\t\t\t\t|exclude|exit\n\t\t\t\t|halt|high\n\t\t\t\t|inc|include\n\t\t\t\t|low\n\t\t\t\t|new\n\t\t\t\t|sizeof\n\t\t\t)(?!\\.)(?=\\b)",
+			"name": "keyword.other.pascal"
+		},
+		"builtins.const": {
+			"match": "(?xi)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:\n\t\t\t\t abs|arctan\n\t\t\t\t|chr|cos\n\t\t\t\t|exp\n\t\t\t\t|ln\n\t\t\t\t|ord\n\t\t\t\t|pred\n\t\t\t\t|round\n\t\t\t\t|sin|sqrt?|succ\n\t\t\t\t|trunc\n\t\t\t)(?!\\.)(?=\\b)",
+			"name": "entity.name.function.pascal"
+		},
+		"builtins.standard": {
+			"match": "(?xi)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:\n\t\t\t\t append|assign(?:ed|file)?\n\t\t\t\t|binStr|block(?:read|write)\n\t\t\t\t|close(?:file)?|concat|copy|copyArray\n\t\t\t\t|delete\n\t\t\t\t|eof|erase|error\n\t\t\t\t|floatToStr|flush|frac\n\t\t\t\t|insert|int|intToStr\n\t\t\t\t|hexStr\n\t\t\t\t|length\n\t\t\t\t|octStr\n\t\t\t\t|pos\n\t\t\t\t|read(?:ln|str)?|reset|rewrite\n\t\t\t\t|seek|set(?:length|jmp|string)|slice|str(?:to(?:int|float))?\n\t\t\t\t|truncate\n\t\t\t\t|varCast\n\t\t\t\t|write(?:ln|str)?\n\t\t\t)(?!\\.)(?=\\b)",
+			"name": "entity.name.function.pascal"
+		},
+		"builtins": {
+			"patterns": [
+				{
+					"include": "#builtins.intrinsic"
+				},
+				{
+					"include": "#builtins.const"
+				},
+				{
+					"include": "#builtins.standard"
+				}
+			]
+		},
+		"constants.string": {
+			"begin": "'",
+			"beginCaptures": {
+				"0": {
+					"name": "string.pascal"
+				}
+			},
+			"end": "'(?!')",
+			"endCaptures": {
+				"0": {
+					"name": "string.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"match": "''",
+					"name": "constant.escape.pascal"
+				},
+				{
+					"match": "[^']+",
+					"name": "string.pascal"
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"match": "(?:\\$\\h+|%[01]+|\\&[0-7]+)(?=\\b)",
+					"name": "constant.numeric.pascal"
+				},
+				{
+					"match": "(?:(?<=[\\s=\\(\\)\\[\\]])[+-])?\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?(?=\\b)",
+					"name": "constant.numeric.pascal"
+				},
+				{
+					"match": "#\\d+(?=\\b)",
+					"name": "string.character.pascal"
+				},
+				{
+					"include": "#constants.string"
+				},
+				{
+					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?:true|false|nil|self|result|maxint)(?=\\b)",
+					"name": "constant.language.pascal"
+				}
+			]
+		},
+		"routine.trailing-attrs": {
+			"patterns": [
+				{
+					"match": "(?xi)\n\t\t\t\t\t\t(;)\n\t\t\t\t\t\t\\s*\n\t\t\t\t\t\t(\n\t\t\t\t\t\t\tstatic|virtual|abstract|dynamic|reintroduce|override\n\t\t\t\t\t\t\t|alias\n\t\t\t\t\t\t\t|cdecl|cppdecl\n\t\t\t\t\t\t\t|default\n\t\t\t\t\t\t\t|export|external\n\t\t\t\t\t\t\t|far|forward\n\t\t\t\t\t\t\t|inline|interrupt|iocheck\n\t\t\t\t\t\t\t|local\n\t\t\t\t\t\t\t|message\n\t\t\t\t\t\t\t|near|noreturn|nostackframe\n\t\t\t\t\t\t\t|overload\n\t\t\t\t\t\t\t|pascal|public\n\t\t\t\t\t\t\t|register\n\t\t\t\t\t\t\t|safecall|saveregisters|softfloat|stdcall\n\t\t\t\t\t\t\t|varargs\n\t\t\t\t\t\t\t|winapi\n\t\t\t\t\t\t)(?=\\s*;)\n\t\t\t\t\t",
+					"captures": {
+						"1": {
+							"name": "punctuation.terminator.pascal"
+						},
+						"2": {
+							"name": "keyword.modifier.pascal"
+						}
+					}
+				},
+				{
+					"begin": "(?i)(;)\\s*(alias)(?=\\b)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.terminator.pascal"
+						},
+						"2": {
+							"name": "keyword.modifier.pascal"
+						}
+					},
+					"end": "(?=;)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": ":",
+							"beginCaptures": {
+								"0": {
+									"name": "operator.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants.string"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?i)(;)\\s*(public)(?=\\b)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.terminator.pascal"
+						},
+						"2": {
+							"name": "keyword.modifier.pascal"
+						}
+					},
+					"end": "(?=;)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": "(?i)name(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.modifier.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants.string"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?i)(;)\\s*(message)(?=\\b)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.terminator.pascal"
+						},
+						"2": {
+							"name": "keyword.modifier.pascal"
+						}
+					},
+					"end": "(?=;)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?i)(;)\\s*(external)(?=\\b)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.terminator.pascal"
+						},
+						"2": {
+							"name": "keyword.modifier.pascal"
+						}
+					},
+					"end": "(?=;)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#constants.string"
+						},
+						{
+							"begin": "(?i)name(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.modifier.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants.string"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "(?i)index(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.modifier.pascal"
+								}
+							},
+							"end": "\\d+",
+							"endCaptures": {
+								"0": {
+									"name": "constant.numeric.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				}
+			]
+		},
+		"routine": {
+			"patterns": [
+				{
+					"begin": "(?i)(?<=\\b)((?:(?:class|generic)\\s+)?(?:function|procedure|(?:con|de)structor))\\s+(?=&?[a-zA-Z_]\\w*)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?xi);(?!\\s*(?:\n\t\t\t\t\t\tstatic|virtual|abstract|dynamic|reintroduce|override\n\t\t\t\t\t\t|alias\n\t\t\t\t\t\t|cdecl|cppdecl\n\t\t\t\t\t\t|default\n\t\t\t\t\t\t|export|external\n\t\t\t\t\t\t|far|forward\n\t\t\t\t\t\t|inline|interrupt|iocheck\n\t\t\t\t\t\t|local\n\t\t\t\t\t\t|message\n\t\t\t\t\t\t|near|noreturn|nostackframe\n\t\t\t\t\t\t|overload\n\t\t\t\t\t\t|pascal|public\n\t\t\t\t\t\t|register\n\t\t\t\t\t\t|safecall|saveregisters|softfloat|stdcall\n\t\t\t\t\t\t|varargs\n\t\t\t\t\t\t|winapi\n\t\t\t\t\t)(?=\\b))",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"match": "(&?[a-zA-Z_]\\w*)(\\.)",
+							"captures": {
+								"1": {
+									"name": "entity.name.type.pascal"
+								},
+								"2": {
+									"name": "operator.pascal"
+								}
+							}
+						},
+						{
+							"begin": "&?[a-zA-Z_]\\w*(?=<.+?>\\s*[(:])",
+							"beginCaptures": {
+								"0": {
+									"name": "entity.name.function.pascal"
+								}
+							},
+							"end": "(?<=>)",
+							"patterns": [
+								{
+									"include": "#generic-params"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "&?[a-zA-Z_]\\w*(?=<)",
+							"beginCaptures": {
+								"0": {
+									"name": "entity.name.type.pascal"
+								}
+							},
+							"end": "(?<=>)\\.",
+							"endCaptures": {
+								"0": {
+									"name": "operator.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#generic-args"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"match": "&?[a-zA-Z_]\\w*(?=\\s*[(:;])",
+							"name": "entity.name.function.pascal"
+						},
+						{
+							"begin": "(?=[(:;])",
+							"end": "(?xi)(?=;(?!\\s*(?:\n\t\t\t\t\t\t\t\tstatic|virtual|abstract|dynamic|reintroduce|override\n\t\t\t\t\t\t\t\t|alias\n\t\t\t\t\t\t\t\t|cdecl|cppdecl\n\t\t\t\t\t\t\t\t|default\n\t\t\t\t\t\t\t\t|export|external\n\t\t\t\t\t\t\t\t|far|forward\n\t\t\t\t\t\t\t\t|inline|interrupt|iocheck\n\t\t\t\t\t\t\t\t|local\n\t\t\t\t\t\t\t\t|message\n\t\t\t\t\t\t\t\t|near|noreturn|nostackframe\n\t\t\t\t\t\t\t\t|overload\n\t\t\t\t\t\t\t\t|pascal|public\n\t\t\t\t\t\t\t\t|register\n\t\t\t\t\t\t\t\t|safecall|saveregisters|softfloat|stdcall\n\t\t\t\t\t\t\t\t|varargs\n\t\t\t\t\t\t\t\t|winapi\n\t\t\t\t\t\t\t)\\b))",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#routine-params"
+								},
+								{
+									"include": "#routine-return"
+								},
+								{
+									"include": "#routine.trailing-attrs"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?xi)\n\t\t\t\t\t\t(?<=\\b)((?:class\\s+)?operator)\n\t\t\t\t\t\t\\s+\n\t\t\t\t\t\t((?:[a-zA-Z_]\\w*\\s*\\.\\s*)*)\n\t\t\t\t\t\t(\n\t\t\t\t\t\t\t\\+      |add\n\t\t\t\t\t\t\t|-      |subtract\n\t\t\t\t\t\t\t|\\*     |multiply\n\t\t\t\t\t\t\t|/      |divide\n\t\t\t\t\t\t\t|\\*\\*   |power\n\t\t\t\t\t\t\t|><     |symmetricaldifference\n\t\t\t\t\t\t\t|=      |equal\n\t\t\t\t\t\t\t|<      |lessthan\n\t\t\t\t\t\t\t|<=     |lessthanorequal\n\t\t\t\t\t\t\t|>      |greaterthan\n\t\t\t\t\t\t\t|>=     |greaterthanorequal\n\t\t\t\t\t\t\t|<>     |notequal\n\t\t\t\t\t\t\t|:=     |assign\n\t\t\t\t\t\t\t|shr    |rightshift\n\t\t\t\t\t\t\t|shl    |leftshift\n\t\t\t\t\t\t\t|div    |intdivide\n\t\t\t\t\t\t\t|mod    |modulus\n\t\t\t\t\t\t\t|and    |bitwiseand|logicaland\n\t\t\t\t\t\t\t|or     |bitwiseor |logicalor\n\t\t\t\t\t\t\t|xor    |bitwisexor\n\t\t\t\t\t\t\t|not    |bitwisenot|logicalnot\n\t\t\t\t\t\t\t|explicit\n\t\t\t\t\t\t\t|in\n\t\t\t\t\t\t\t|enumerator\n\t\t\t\t\t\t\t|inc\n\t\t\t\t\t\t\t|dec\n\t\t\t\t\t\t\t|initialize|finalize|addref|copy\n\t\t\t\t\t\t)(?=\\b)\n\t\t\t\t\t",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.pascal"
+						},
+						"2": {
+							"patterns": [
+								{
+									"match": "([a-zA-Z_]\\w*)(\\.)",
+									"captures": {
+										"1": {
+											"name": "entity.name.type.pascal"
+										},
+										"2": {
+											"name": "operator.pascal"
+										}
+									}
+								}
+							]
+						},
+						"3": {
+							"name": "entity.name.function.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#routine-params"
+						},
+						{
+							"include": "#routine-return"
+						}
+					]
+				}
+			]
+		},
+		"routine-params": {
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.parameters.begin.pascal"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.parameters.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"match": "(?i)(?<=\\b)(?:const|var|constref|out)(?=\\s+&?[a-zA-Z_])",
+					"name": "keyword.pascal"
+				},
+				{
+					"match": "&?[a-zA-Z_]\\w*",
+					"name": "variable.parameter.pascal"
+				},
+				{
+					"match": "(?i)(:)\\s*(array\\s+of\\s+const)(?=\\s*[;)])",
+					"captures": {
+						"1": {
+							"name": "operator.pascal"
+						},
+						"2": {
+							"name": "keyword.pascal"
+						}
+					}
+				},
+				{
+					"include": "#type-anno"
+				},
+				{
+					"begin": "=",
+					"beginCaptures": {
+						"0": {
+							"name": "operator.pascal"
+						}
+					},
+					"end": "(?=\\s*[;)])",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#const-exprs"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				}
+			]
+		},
+		"routine-return": {
+			"begin": "((?:&?[a-zA-Z_]\\w*\\s*)?)(:)",
+			"beginCaptures": {
+				"1": {
+					"name": "variable.pascal"
+				},
+				"2": {
+					"name": "operator.pascal"
+				}
+			},
+			"end": "(?=;)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#basic-type"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"keywords": {
+			"match": "(?xi)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:\n\t\t\t\t\tabsolute|asm|assembler|at\n\t\t\t\t|case|const\n\t\t\t\t|do|downto\n\t\t\t\t|else\n\t\t\t\t|for\n\t\t\t\t|goto\n\t\t\t\t|if|implementation|inherited|inline|interface\n\t\t\t\t|label\n\t\t\t\t|object|of|otherwise\n\t\t\t\t|packed|program\n\t\t\t\t|raise|record|reintroduce|repeat\n\t\t\t\t|set\n\t\t\t\t|then|to|type\n\t\t\t\t|until|uses\n\t\t\t\t|var\n\t\t\t\t|while|with\n\t\t\t)(?=\\b)",
+			"name": "keyword.pascal"
+		},
+		"name": {
+			"match": "&?[a-zA-Z_]\\w*",
+			"name": "source.pascal"
+		},
+		"const-name": {
+			"match": "&?[a-zA-Z_]\\w*",
+			"name": "constant.language.pascal"
+		},
+		"param-name": {
+			"match": "&?[a-zA-Z_]\\w*",
+			"name": "variable.parameter.pascal"
+		},
+		"type-name": {
+			"match": "&?[a-zA-Z_]\\w*",
+			"name": "entity.name.type.pascal"
+		},
+		"paren": {
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.begin.pascal"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#exprs"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"subscript": {
+			"begin": "\\[",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.subscript.begin.pascal"
+				}
+			},
+			"end": "\\]",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.subscript.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#exprs"
+				}
+			]
+		},
+		"operators": {
+			"patterns": [
+				{
+					"match": "(?x)\n\t\t\t\t\t\t  [+\\-/^@]\n\t\t\t\t\t\t| \\*\\*?\n\t\t\t\t\t\t| [<>][<>=]?\n\t\t\t\t\t\t| [:+\\-*/]?=\n\t\t\t\t\t\t| \\.\\.\n\t\t\t\t\t",
+					"name": "keyword.operator.pascal"
+				},
+				{
+					"include": "#dot"
+				},
+				{
+					"match": "(?xi)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:\n\t\t\t\t\t\t div|mod\n\t\t\t\t\t\t|and(?:_then)?|or(?:_else)?|xor|not\n\t\t\t\t\t\t|shl|shr\n\t\t\t\t\t\t|in\n\t\t\t\t\t\t|is|as\n\t\t\t\t\t)(?=\\b)",
+					"name": "keyword.pascal"
+				}
+			]
+		},
+		"type-anno": {
+			"begin": ":(?!=)",
+			"beginCaptures": {
+				"0": {
+					"name": "operator.pascal"
+				}
+			},
+			"end": "(?<!:\\s*)(?!<)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#type"
+				},
+				{
+					"include": "#generic-args"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"case-of": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)case(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#colon"
+				},
+				{
+					"include": "#case-of"
+				},
+				{
+					"include": "#try-except-finally"
+				},
+				{
+					"include": "#block"
+				},
+				{
+					"include": "#asm"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#exprs"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"try-except-finally": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)try(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#colon"
+				},
+				{
+					"include": "#case-of"
+				},
+				{
+					"include": "#try-except-finally"
+				},
+				{
+					"include": "#block"
+				},
+				{
+					"include": "#asm"
+				},
+				{
+					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:except|on|finally)(?=\\b)",
+					"name": "keyword.pascal"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#label"
+				},
+				{
+					"include": "#exprs"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"block": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)begin(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#colon"
+				},
+				{
+					"include": "#case-of"
+				},
+				{
+					"include": "#try-except-finally"
+				},
+				{
+					"include": "#block"
+				},
+				{
+					"include": "#asm"
+				},
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#label"
+				},
+				{
+					"include": "#exprs"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"asm.register.special": {
+			"match": "(?xi)%?(?:\n\t\t\t\t  [er]? (?: [abcd]x | [sb]p )\n\t\t\t\t| edi\n\t\t\t\t| [abcd][hl]\n\t\t\t\t| r\\d+\n\t\t\t)(?=\\b)",
+			"name": "constant.language.pascal"
+		},
+		"asm.register": {
+			"patterns": [
+				{
+					"include": "#asm.register.special"
+				},
+				{
+					"match": "[a-zA-Z_]\\w*",
+					"name": "variable.name.pascal"
+				}
+			]
+		},
+		"asm.constant.integer": {
+			"match": "(?i)\\d+B?",
+			"name": "constant.numeric.pascal"
+		},
+		"asm.constant.hex-integer": {
+			"match": "\\h+h",
+			"name": "constant.numeric.pascal"
+		},
+		"asm.constant": {
+			"patterns": [
+				{
+					"include": "#asm.constant.hex-integer"
+				},
+				{
+					"include": "#asm.constant.integer"
+				}
+			]
+		},
+		"asm.macro": {
+			"match": "@[a-zA-Z_]\\w*",
+			"name": "entity.name.function.pascal"
+		},
+		"asm.operator": {
+			"match": "[+\\-]",
+			"name": "keyword.operator.pascal"
+		},
+		"asm.paren": {
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.begin.pascal"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#asm.expr"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"asm.subscript": {
+			"begin": "\\[",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.subscript.begin.pascal"
+				}
+			},
+			"end": "\\]",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.subscript.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#asm.expr"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"asm.expr": {
+			"patterns": [
+				{
+					"include": "#asm.register"
+				},
+				{
+					"include": "#asm.constant"
+				},
+				{
+					"include": "#asm.macro"
+				},
+				{
+					"match": "\\.[a-zA-Z_]\\w*",
+					"name": "entity.name.function.pascal"
+				},
+				{
+					"include": "#asm.operator"
+				},
+				{
+					"include": "#asm.paren"
+				},
+				{
+					"include": "#asm.subscript"
+				},
+				{
+					"include": "#colon"
+				},
+				{
+					"include": "#comma"
+				}
+			]
+		},
+		"asm.command": {
+			"begin": "(?<=^\\s*)([a-zA-Z_]\\w*)(?!\\s*:)(?=\\b)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "$",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#asm.expr"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"asm.func-label": {
+			"match": "(?<=^\\s*)(\\.[a-zA-Z_]\\w*)\\s*(:(?!=))",
+			"captures": {
+				"1": {
+					"name": "entity.name.function.pascal"
+				},
+				"2": {
+					"name": "keyword.operator.pascal"
+				}
+			}
+		},
+		"asm": {
+			"begin": "(?i)(?<=\\b)asm(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#asm.command"
+				},
+				{
+					"include": "#label"
+				},
+				{
+					"include": "#asm.func-label"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"generic-args": {
+			"begin": "(?<=\\w)<(?!\\s*[=<>(])",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.args.begin.pascal"
+				}
+			},
+			"end": ">",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.args.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#type"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"basic-type.builtin": {
+			"match": "(?xi)(?<=\\b)(?:\n\t\t\t\tInteger|Shortint|SmallInt|Longint|Longword|Int64|Byte|Word|Cardinal|QWord\n\t\t\t\t|Boolean|ByteBool|WordBool|LongBool|QWordBool\n\t\t\t\t|Real|Single|Double|Extended|Comp|Currency\n\t\t\t\t|(?:P|Wide|P?Ansi|P?Unicode)?Char\n\t\t\t\t|(?:Short|Wide|Ansi|RawByte|UTF8|Unicode)String|String(?!\\s*\\[)\n\t\t\t\t|Pointer\n\t\t\t\t|Variant\n\t\t\t)(?=\\b)",
+			"name": "entity.name.type.pascal"
+		},
+		"basic-type.user-defined": {
+			"match": "(&?[a-zA-Z_]\\w*(?<!(?i)(?<!(?<!\\.)\\.|\\&)\\b(?:array|set|record|object|class|interface|generic|specialize|procedure|function))(?:\\.&?[a-zA-Z_]\\w*)*)",
+			"captures": {
+				"1": {
+					"patterns": [
+						{
+							"match": "&?[a-zA-Z_]\\w*",
+							"name": "entity.name.type.pascal"
+						},
+						{
+							"match": "\\.",
+							"name": "operator.pascal"
+						}
+					]
+				}
+			}
+		},
+		"basic-type": {
+			"begin": "((?i)(?<=\\b)(?<![\\&\\.])specialize\\s+)?(\\^\\s*)?(?=&?[a-zA-Z_])",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				},
+				"2": {
+					"name": "keyword.operator.pascal"
+				}
+			},
+			"end": "(?<=[\\w>])(?!<)",
+			"patterns": [
+				{
+					"include": "#generic-args"
+				},
+				{
+					"include": "#basic-type.builtin"
+				},
+				{
+					"include": "#basic-type.user-defined"
+				}
+			]
+		},
+		"type.routine": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(function|procedure)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "((?:(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:is\\s+nested|of\\s+object))?)(?=\\s*;)",
+			"endCaptures": {
+				"1": {
+					"name": "keyword.other.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#routine-params"
+				},
+				{
+					"begin": "((?:&?[a-zA-Z_]\\w*\\s*)?)(:)",
+					"beginCaptures": {
+						"1": {
+							"name": "variable.pascal"
+						},
+						"2": {
+							"name": "operator.pascal"
+						}
+					},
+					"end": "(?=(?:(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:is\\s+nested|of\\s+object))?\\s*;)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#basic-type"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				}
+			]
+		},
+		"type.sized-string": {
+			"begin": "(?i)(?<=\\b)(string)\\s*(\\[)",
+			"beginCaptures": {
+				"1": {
+					"name": "entity.name.type.pascal"
+				},
+				"2": {
+					"name": "punctuation.definition.subscript.begin.pascal"
+				}
+			},
+			"end": "\\]",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.subscript.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#constants"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"include": "#const-name"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"type.array": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)((?:(?:bit)?packed\\s+)?array)(?=\\b)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?:(?<!(?<!\\.)\\.|\\&)\\b(?:array|of)|\\])\\s*)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "\\[",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.subscript.begin.pascal"
+						}
+					},
+					"end": "\\]",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.subscript.end.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#operators"
+						},
+						{
+							"include": "#basic-type.builtin"
+						},
+						{
+							"match": "(?xi)\n\t\t\t\t\t\t\t\t(?<=(?:\n\t\t\t\t\t\t\t\t\t[+\\-/@=(]\n\t\t\t\t\t\t\t\t\t| \\*\\*?\n\t\t\t\t\t\t\t\t\t| [<>][<>=]?\n\t\t\t\t\t\t\t\t\t| \\.\\.\n\t\t\t\t\t\t\t\t)\\s*)\n\t\t\t\t\t\t\t\t&?[a-zA-Z_]\\w*(?!\\w*\\s*\\()\n\t\t\t\t\t\t\t\t|\n\t\t\t\t\t\t\t\t&?[a-zA-Z_]\\w*(?!\\w*\\s*\\()\n\t\t\t\t\t\t\t\t(?=\\s*(?:\n\t\t\t\t\t\t\t\t\t[+\\-/^=)]\n\t\t\t\t\t\t\t\t\t| \\*\\*?\n\t\t\t\t\t\t\t\t\t| [<>][<>=]?\n\t\t\t\t\t\t\t\t\t| \\.\\.\n\t\t\t\t\t\t\t\t))\n\t\t\t\t\t\t\t",
+							"name": "constant.language.pascal"
+						},
+						{
+							"include": "#const-exprs"
+						},
+						{
+							"include": "#comma"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)of(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?i)(?<!(?:(?<!(?<!\\.)\\.|\\&)\\b(?:array|of)|\\])\\s*)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#type-decl"
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"type.set": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(set)(?=\\b)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!(?<!\\.)\\.|\\&)\\b(?:set|of)\\s*)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)of(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?i)(?<!(?<!(?<!\\.)\\.|\\&)\\b(?:set|of)\\s*)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#type-decl"
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"type.file": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(file)(?=\\b)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!(?<!\\.)\\.|\\&)\\b(?:file|of)\\s*)|(?=[;)>])",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)of(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?i)(?<!(?<!(?<!\\.)\\.|\\&)\\b(?:file|of)\\s*)|(?=[;)>])",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#type-decl"
+						},
+						{
+							"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)text(?=\\b)",
+							"name": "keyword.pascal"
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"generic-params": {
+			"begin": "(?<=\\w)<(?!\\s*[=<>(])",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.parameters.begin.pascal"
+				}
+			},
+			"end": ">",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.parameters.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#colon"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:record|class|object|interface|constructor)(?=\\b)",
+					"name": "keyword.pascal"
+				},
+				{
+					"include": "#type"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"type": {
+			"patterns": [
+				{
+					"include": "#type.routine"
+				},
+				{
+					"include": "#type.sized-string"
+				},
+				{
+					"include": "#type.array"
+				},
+				{
+					"include": "#type.set"
+				},
+				{
+					"include": "#type.file"
+				},
+				{
+					"include": "#basic-type"
+				}
+			]
+		},
+		"oop.visibility.strict-private": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)strict(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.modifier.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)private(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.modifier.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"oop.visibility.private": {
+			"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)private(?=\\b)",
+			"name": "keyword.modifer.pascal"
+		},
+		"oop.visibility.strict-private-protected": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)strict(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.modifier.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:private|protected)(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.modifier.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"oop.visibility.protected": {
+			"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)protected(?=\\b)",
+			"name": "keyword.modifer.pascal"
+		},
+		"oop.visibility.public": {
+			"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)public(?=\\b)",
+			"name": "keyword.modifer.pascal"
+		},
+		"oop.visibility.published": {
+			"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)published(?=\\b)",
+			"name": "keyword.modifer.pascal"
+		},
+		"oop.visibility": {
+			"patterns": [
+				{
+					"include": "#oop.visibility.strict-private-protected"
+				},
+				{
+					"include": "#oop.visibility.private"
+				},
+				{
+					"include": "#oop.visibility.protected"
+				},
+				{
+					"include": "#oop.visibility.public"
+				},
+				{
+					"include": "#oop.visibility.published"
+				}
+			]
+		},
+		"oop.property": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:class\\s+)?property(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?=;(?!\\s*(?:read|write|index|stored|implements|(?:no)?default)\\b))",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "variable.pascal"
+						}
+					},
+					"end": "(?=;(?!\\s*(?:read|write|index|stored|implements|(?:no)?default)\\b))",
+					"patterns": [
+						{
+							"begin": "\\[",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.subscript.begin.pascal"
+								}
+							},
+							"end": "\\]",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.definition.subscript.end.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#comma"
+								},
+								{
+									"include": "#semicolon"
+								},
+								{
+									"match": "(?i)(?<=\\b)(?:const|var|constref|out)(?=\\s+&?[a-zA-Z_])",
+									"name": "keyword.pascal"
+								},
+								{
+									"match": "&?[a-zA-Z_]\\w*",
+									"name": "variable.parameter.pascal"
+								},
+								{
+									"match": "(?i)(:)\\s*(array\\s+of\\s+const)(?=\\s*[;)\\]])",
+									"captures": {
+										"1": {
+											"name": "operator.pascal"
+										},
+										"2": {
+											"name": "keyword.pascal"
+										}
+									}
+								},
+								{
+									"include": "#type-anno"
+								},
+								{
+									"begin": "=",
+									"beginCaptures": {
+										"0": {
+											"name": "operator.pascal"
+										}
+									},
+									"end": "(?=\\s*[;)\\]])",
+									"patterns": [
+										{
+											"include": "#empty"
+										},
+										{
+											"include": "#constants"
+										},
+										{
+											"include": "#invalid"
+										}
+									]
+								}
+							]
+						},
+						{
+							"include": "#type-anno"
+						},
+						{
+							"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:read|write)(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "(?i)(?=(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:read|write|index|stored|implements|(?:no)?default)\\b|;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"match": "&?[a-zA-Z_]\\w*",
+									"name": "entity.name.function.pascal"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)index(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "\\d+",
+							"endCaptures": {
+								"0": {
+									"name": "constant.numeric.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)stored(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "(?i)(?=(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:read|write|index|stored|implements|(?:no)?default)\\b|;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants"
+								},
+								{
+									"include": "#name"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)implements(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "(?i)(?=(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:read|write|index|stored|implements|(?:no)?default)\\b|;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#comma"
+								},
+								{
+									"include": "#type"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)default(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "(?i)(?=(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:read|write|index|stored|implements|(?:no)?default)\\b|;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants"
+								},
+								{
+									"include": "#name"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)nodefault(?=\\b)",
+							"name": "keyword.pascal"
+						},
+						{
+							"match": ";(?=\\s*(?:read|write|index|stored|implements|(?:no)?default)\\b)",
+							"name": "punctuation.terminator.pascal"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"oop.inheritance": {
+			"begin": "(?i)(?<=\\b(?:object|class(?:\\s+(?:sealed|abstract))?|objcclass(?:\\s+external)?|interface|(?:class|record|type)\\s+helper)\\s*)\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.begin.pascal"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)specialize(?=\\b)",
+					"name": "keyword.pascal"
+				},
+				{
+					"include": "#type"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"oop.object-body": {
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#oop.inheritance"
+				},
+				{
+					"include": "#oop.visibility.private"
+				},
+				{
+					"include": "#oop.visibility.protected"
+				},
+				{
+					"include": "#oop.visibility.public"
+				},
+				{
+					"include": "#routine"
+				},
+				{
+					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)class\\s+(?=var\\b)",
+					"name": "keyword.pascal"
+				},
+				{
+					"include": "#vars-section"
+				},
+				{
+					"include": "#var-decl"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"oop.class-body": {
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#oop.inheritance"
+				},
+				{
+					"include": "#oop.visibility"
+				},
+				{
+					"include": "#routine"
+				},
+				{
+					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)class\\s+(?=(?:var|property)\\b)",
+					"name": "keyword.pascal"
+				},
+				{
+					"include": "#oop.property"
+				},
+				{
+					"include": "#types-section"
+				},
+				{
+					"include": "#vars-section"
+				},
+				{
+					"include": "#consts-section"
+				},
+				{
+					"include": "#var-decl"
+				},
+				{
+					"include": "#semicolon"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"var-decl": {
+			"begin": "&?[a-zA-Z_]\\w*",
+			"beginCaptures": {
+				"0": {
+					"name": "variable.pascal"
+				}
+			},
+			"end": "(?xi);|(?=\\b(?:\n\t\t\t\t(?:thread|class\\s+)?var|const|type|resourcestring\n\t\t\t\t|(?:(?:generic|class)\\s+)?(?:function|procedure|operator|constructor|destructor)\n\t\t\t\t|property\n\t\t\t\t|begin|end\n\t\t\t\t|strict|public(?!\\s+name\\s*'|\\s*;)|private|protected\n\t\t\t\t|interface|implementation|initialization|finalization\n\t\t\t\t|uses|exports\n\t\t\t\t|label\n\t\t\t\t|asm|assembler\n\t\t\t)\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.terminator.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"match": "&?[a-zA-Z_]\\w*",
+					"name": "variable.pascal"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"include": "#type-anno"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"record-decl": {
+			"patterns": [
+				{
+					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:(?:bit)?packed\\s+)?record(?!\\s+helper\\b)(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+					"endCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#~case"
+						},
+						{
+							"include": "#oop.visibility.strict-private"
+						},
+						{
+							"include": "#oop.visibility.private"
+						},
+						{
+							"include": "#oop.visibility.public"
+						},
+						{
+							"include": "#routine"
+						},
+						{
+							"include": "#oop.property"
+						},
+						{
+							"include": "#types-section"
+						},
+						{
+							"include": "#vars-section"
+						},
+						{
+							"include": "#consts-section"
+						},
+						{
+							"include": "#var-decl"
+						},
+						{
+							"include": "#semicolon"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				}
+			],
+			"repository": {
+				"~case": {
+					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(case)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?=end\\b)|(?=\\))",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"match": "(&?[a-zA-Z_]\\w*)\\s*(:)",
+							"captures": {
+								"1": {
+									"name": "variable.pascal"
+								},
+								"2": {
+									"name": "operator.pascal"
+								}
+							}
+						},
+						{
+							"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(of)\\b",
+							"beginCaptures": {
+								"1": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?=end\\b)|(?=\\))",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants"
+								},
+								{
+									"match": "(?<=\\b)([a-zA-Z_]\\w*)(\\.)([a-zA-Z_]\\w*)(?!\\.(?!\\.))(?=\\b)",
+									"captures": {
+										"1": {
+											"name": "entity.name.type.pascal"
+										},
+										"2": {
+											"name": "operator.pascal"
+										},
+										"3": {
+											"name": "constant.language.pascal"
+										}
+									}
+								},
+								{
+									"include": "#operators"
+								},
+								{
+									"include": "#const-name"
+								},
+								{
+									"include": "#semicolon"
+								},
+								{
+									"include": "#comma"
+								},
+								{
+									"include": "#colon"
+								},
+								{
+									"patterns": [
+										{
+											"begin": "\\(",
+											"beginCaptures": {
+												"0": {
+													"name": "punctuation.definition.paren.begin.pascal"
+												}
+											},
+											"end": "\\)",
+											"endCaptures": {
+												"0": {
+													"name": "punctuation.definition.paren.end.pascal"
+												}
+											},
+											"patterns": [
+												{
+													"include": "#empty"
+												},
+												{
+													"include": "#~case"
+												},
+												{
+													"include": "#~var-decl"
+												},
+												{
+													"include": "#semicolon"
+												},
+												{
+													"include": "#invalid"
+												}
+											]
+										}
+									],
+									"repository": {
+										"~var-decl": {
+											"begin": "&?[a-zA-Z_]\\w*",
+											"beginCaptures": {
+												"0": {
+													"name": "variable.pascal"
+												}
+											},
+											"end": "(?=[;)>])",
+											"patterns": [
+												{
+													"include": "#empty"
+												},
+												{
+													"match": "&?[a-zA-Z_]\\w*",
+													"name": "variable.pascal"
+												},
+												{
+													"include": "#comma"
+												},
+												{
+													"begin": ":",
+													"beginCaptures": {
+														"0": {
+															"name": "operator.pascal"
+														}
+													},
+													"end": "(?<!:\\s*)",
+													"patterns": [
+														{
+															"include": "#empty"
+														},
+														{
+															"include": "#~case"
+														},
+														{
+															"include": "#type-decl"
+														},
+														{
+															"include": "#type"
+														}
+													]
+												},
+												{
+													"include": "#invalid"
+												}
+											]
+										}
+									}
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#type-decl"
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				}
+			}
+		},
+		"enum-decl": {
+			"begin": "\\(",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.begin.pascal"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.paren.end.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "constant.language.pascal"
+						}
+					},
+					"end": "(?=[,)])",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": ":?=",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.operator.pascal"
+								}
+							},
+							"end": "(?=[,)])",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants"
+								},
+								{
+									"include": "#const-name"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"object-decl": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:packed\\s+)?object(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#oop.object-body"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"class-decl": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:(?:packed\\s+)?class(?:\\s+(?:abstract|sealed))?(?!\\s+(?:of|helper)\\b|\\s*;)|objcclass(?:\\s+external)?)(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#oop.class-body"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"class-forward-decl": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:objc)?class(?!\\s+helper\\b)(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?=;)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)of(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?=;)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"interface-decl": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)interface(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "(?i)(?<=(?:\\binterface|\\])\\s*)\\(",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.paren.begin.pascal"
+						}
+					},
+					"end": "\\)",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.paren.end.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"match": "(?i)(?<!(?<!\\.)\\.|\\&)specialize(?=\\b)",
+							"name": "keyword.pascal"
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"include": "#comma"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?i)(?<=(?:\\binterface|\\)|^)\\s*)\\[",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.uuid.begin.pascal"
+						}
+					},
+					"end": "\\]",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.uuid.end.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?!\\s*(?:\\(|$))",
+					"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?=end\\b)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#routine"
+						},
+						{
+							"include": "#oop.property"
+						},
+						{
+							"include": "#semicolon"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				}
+			]
+		},
+		"enum-range-decl": {
+			"begin": "(?=-?(?:[$%\\&#\\d]|[a-zA-Z_]\\w*\\s*\\.\\.))",
+			"end": "(?=;)",
+			"patterns": [
+				{
+					"include": "#constants"
+				},
+				{
+					"include": "#const-name"
+				},
+				{
+					"include": "#operators"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"helper-decl": {
+			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:class|record|type)\\s+helper(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)end(?=\\b)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#oop.inheritance"
+				},
+				{
+					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)for(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?=end\\b)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#type"
+						},
+						{
+							"begin": "(?i)(?<!(?<!(?<!\\.)\\.|\\&)\\bfor\\s+)",
+							"end": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?=end\\b)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#routine"
+								},
+								{
+									"include": "#oop.visibility"
+								},
+								{
+									"include": "#oop.property"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"type-decl": {
+			"patterns": [
+				{
+					"include": "#record-decl"
+				},
+				{
+					"include": "#enum-decl"
+				},
+				{
+					"include": "#object-decl"
+				},
+				{
+					"include": "#class-decl"
+				},
+				{
+					"include": "#class-forward-decl"
+				},
+				{
+					"include": "#interface-decl"
+				},
+				{
+					"include": "#enum-range-decl"
+				},
+				{
+					"include": "#helper-decl"
+				}
+			]
+		},
+		"types-section": {
+			"begin": "(?i)(?<=\\b)(type)(?=\\b)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?xi)(?=\\b(?:\n\t\t\t\t(?:thread|class\\s+)?var|const|type|resourcestring\n\t\t\t\t|(?:(?:generic|class)\\s+)?(?:function|procedure|operator|constructor|destructor)\n\t\t\t\t|property\n\t\t\t\t|case|begin|end\n\t\t\t\t|strict|public|private|protected\n\t\t\t\t|interface|implementation|initialization|finalization\n\t\t\t\t|uses|exports\n\t\t\t\t|label\n\t\t\t\t|asm|assembler\n\t\t\t)\\b)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "(?i)(?<!\\.)(?:(?=\\s*&)|(?<=\\b))((?:generic\\s+)?)(&?[a-zA-Z_]\\w*)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.pascal"
+						},
+						"2": {
+							"name": "entity.name.type.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#generic-params"
+						},
+						{
+							"begin": "=",
+							"beginCaptures": {
+								"0": {
+									"name": "operator.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"match": "(?i)(?<=\\b)(?:type(?!\\s+helper\\b)|specialize)(?=\\b)",
+									"name": "keyword.pascal"
+								},
+								{
+									"include": "#type-decl"
+								},
+								{
+									"include": "#type"
+								}
+							]
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"vars-section": {
+			"begin": "(?i)(?<=\\b)(?:thread)?var(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?xi)(?=\\b(?:\n\t\t\t\t(?:thread|class\\s+)?var|const|type|resourcestring\n\t\t\t\t|(?:(?:generic|class)\\s+)?(?:function|procedure|operator|constructor|destructor)\n\t\t\t\t|property\n\t\t\t\t|begin|end\n\t\t\t\t|strict|public(?!\\s+name\\s*'|\\s*;)|private|protected\n\t\t\t\t|interface|implementation|initialization|finalization\n\t\t\t\t|uses|exports\n\t\t\t\t|label\n\t\t\t\t|asm|assembler\n\t\t\t)\\b)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "(?i)external(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.modifier.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#constants.string"
+						},
+						{
+							"begin": "(?i)name(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.modifier.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants.string"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?i)(?:public|export)(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.modifier.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": "(?i)name(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.modifier.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants.string"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "(?i)cvar(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.modifier.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "variable.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": "(?i)absolute(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.modifier.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"match": "\\d+",
+									"name": "constant.numeric.pascal"
+								},
+								{
+									"include": "#name"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"match": "&?[a-zA-Z_]\\w*",
+							"name": "variable.pascal"
+						},
+						{
+							"include": "#comma"
+						},
+						{
+							"include": "#type-anno"
+						},
+						{
+							"begin": "=",
+							"beginCaptures": {
+								"0": {
+									"name": "operator.pascal"
+								}
+							},
+							"end": "(?=\\s*[;)])",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"consts-section": {
+			"begin": "(?i)(?<=\\b)const(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?xi)(?=\\b(?:\n\t\t\t\t(?:thread|class\\s+)?var|const|type|resourcestring\n\t\t\t\t|(?:(?:generic|class)\\s+)?(?:function|procedure|operator|constructor|destructor)\n\t\t\t\t|property\n\t\t\t\t|begin|end\n\t\t\t\t|strict|public(?!\\s+name\\s*'|\\s*;)|private|protected\n\t\t\t\t|interface|implementation|initialization|finalization\n\t\t\t\t|uses|exports\n\t\t\t\t|label\n\t\t\t\t|asm|assembler\n\t\t\t)\\b)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "constant.language.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#type-anno"
+						},
+						{
+							"begin": "=",
+							"beginCaptures": {
+								"0": {
+									"name": "operator.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#const-exprs"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"resourcestrings-section": {
+			"begin": "(?i)(?<=\\b)resourcestring(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?xi)(?=\\b(?:\n\t\t\t\t(?:thread)?var|const|type|resourcestring\n\t\t\t\t|(?:(?:generic|class)\\s+)?(?:function|procedure|operator|constructor|destructor)\n\t\t\t\t|property\n\t\t\t\t|begin\n\t\t\t\t|strict|public(?!\\s+name\\s*'|\\s*;)|private|protected\n\t\t\t\t|interface|implementation|initialization|finalization\n\t\t\t\t|uses|exports\n\t\t\t\t|label\n\t\t\t\t|asm|assembler\n\t\t\t)\\b)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "constant.language.pascal"
+						}
+					},
+					"end": ";",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.terminator.pascal"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": "=",
+							"beginCaptures": {
+								"0": {
+									"name": "operator.pascal"
+								}
+							},
+							"end": "(?=;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#const-exprs"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"property-section": {
+			"begin": "(?i)(?<=\\b)property(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?=;)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "variable.pascal"
+						}
+					},
+					"end": "(?=;)",
+					"patterns": [
+						{
+							"begin": "\\[",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.subscript.begin.pascal"
+								}
+							},
+							"end": "\\]",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.definition.subscript.end.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#comma"
+								},
+								{
+									"include": "#semicolon"
+								},
+								{
+									"match": "(?i)(?:const|var|constref|out)(?=\\s+&?[a-zA-Z_])",
+									"name": "keyword.pascal"
+								},
+								{
+									"match": "&?[a-zA-Z_]\\w*",
+									"name": "variable.parameter.pascal"
+								},
+								{
+									"match": "(?i)(:)\\s*(array\\s+of\\s+const)(?=\\s*[;)\\]])",
+									"captures": {
+										"1": {
+											"name": "operator.pascal"
+										},
+										"2": {
+											"name": "keyword.pascal"
+										}
+									}
+								},
+								{
+									"include": "#type-anno"
+								},
+								{
+									"begin": "=",
+									"beginCaptures": {
+										"0": {
+											"name": "operator.pascal"
+										}
+									},
+									"end": "(?=\\s*[;)\\]])",
+									"patterns": [
+										{
+											"include": "#empty"
+										},
+										{
+											"include": "#constants"
+										},
+										{
+											"include": "#invalid"
+										}
+									]
+								}
+							]
+						},
+						{
+							"include": "#type-anno"
+						},
+						{
+							"begin": "(?i)(?:read|write)(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "(?i)(?=(?:read|write|index|(?:no)?default)\\b|;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"match": "[a-zA-Z_]\\w*",
+									"name": "entity.name.function.pascal"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "(?i)index(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "\\d+",
+							"endCaptures": {
+								"0": {
+									"name": "constant.numeric.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": "(?i)default(?=\\b)",
+							"beginCaptures": {
+								"0": {
+									"name": "keyword.pascal"
+								}
+							},
+							"end": "(?i)(?=(?:read|write|index|(?:no)?default)\\b|;)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#constants"
+								},
+								{
+									"include": "#name"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"match": "(?i)nodefault(?=\\b)",
+							"name": "keyword.pascal"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"uses-section": {
+			"begin": "(?i)(?<=\\b)uses(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": ";",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.terminator.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"begin": "(?i)in(?=\\b)",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.pascal"
+						}
+					},
+					"end": "(?<=')",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"include": "#constants.string"
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#name"
+				},
+				{
+					"include": "#dot"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"exports-section": {
+			"begin": "(?i)(?<=\\b)exports(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": ";",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.terminator.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"match": "(?i)name(?=\\b)",
+					"name": "keyword.pascal"
+				},
+				{
+					"include": "#name"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"labels-section": {
+			"begin": "(?i)(?<=\\b)label(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": ";",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.terminator.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#comma"
+				},
+				{
+					"match": "&?[a-zA-Z_]\\w*",
+					"name": "variable.label.pascal"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"interface-section": {
+			"begin": "(?i)(?<=\\b)interface(?!\\s*\\()(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<=\\b)(?=implementation\\b)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#top-level"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"implementation-section": {
+			"begin": "(?i)(?<=\\b)implementation(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<=\\b)(?=(?:initialization|finalization|end)\\b)",
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"include": "#exports-section"
+				},
+				{
+					"include": "#top-level"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"initialization-section": {
+			"begin": "(?i)(?<=\\b)initialization(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<=\\b)(?=(?:finalization|end)\\b)",
+			"patterns": [
+				{
+					"include": "#statements"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"finalization-section": {
+			"begin": "(?i)(?<=\\b)finalization(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<=\\b)(?=end\\b)",
+			"patterns": [
+				{
+					"include": "#statements"
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"unit": {
+			"begin": "(?i)(?<=\\b)unit(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<=\\b)end(?=\\s*(?:(?:\\(\\*(?:\\*+(?!\\))|[^*]+)*\\*\\)|\\{[^\\{\\}]*\\})\\s*)*)",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"match": "(&?[a-zA-Z_]\\w*)(\\.)",
+					"captures": {
+						"1": {
+							"name": "entity.name.type.pascal"
+						},
+						"2": {
+							"name": "keyword.operator.pascal"
+						}
+					}
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "entity.name.type.pascal"
+						}
+					},
+					"end": "(?i)(?=end\\s*(?:(?:\\(\\*(?:\\*+(?!\\))|[^*]+)*\\*\\)|\\{[^\\{\\}]*\\})\\s*)*\\.)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": ";",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.terminator.pascal"
+								}
+							},
+							"end": "(?i)(?=end\\s*(?:(?:\\(\\*(?:\\*+(?!\\))|[^*]+)*\\*\\)|\\{[^\\{\\}]*\\})\\s*)*\\.)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#interface-section"
+								},
+								{
+									"include": "#implementation-section"
+								},
+								{
+									"include": "#initialization-section"
+								},
+								{
+									"include": "#finalization-section"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"program": {
+			"begin": "(?i)(?<=\\b)program(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<=\\bend\\s*)\\.",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.operator.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "entity.name.type.pascal"
+						}
+					},
+					"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": "\\(",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.paren.begin.pascal"
+								}
+							},
+							"end": "\\)",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.definition.paren.end.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#comma"
+								},
+								{
+									"include": "#param-name"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": ";",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.terminator.pascal"
+								}
+							},
+							"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#top-level"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		},
+		"library": {
+			"begin": "(?i)(?<=\\b)library(?=\\b)",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.pascal"
+				}
+			},
+			"end": "(?i)(?<=\\bend\\s*)\\.",
+			"endCaptures": {
+				"0": {
+					"name": "keyword.operator.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#empty"
+				},
+				{
+					"begin": "&?[a-zA-Z_]\\w*",
+					"beginCaptures": {
+						"0": {
+							"name": "entity.name.type.pascal"
+						}
+					},
+					"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": "\\(",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.definition.paren.begin.pascal"
+								}
+							},
+							"end": "\\)",
+							"endCaptures": {
+								"0": {
+									"name": "punctuation.definition.paren.end.pascal"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#comma"
+								},
+								{
+									"include": "#param-name"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": ";",
+							"beginCaptures": {
+								"0": {
+									"name": "punctuation.terminator.pascal"
+								}
+							},
+							"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#exports-section"
+								},
+								{
+									"include": "#top-level"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"include": "#invalid"
+						}
+					]
+				},
+				{
+					"include": "#invalid"
+				}
+			]
+		}
+	}
+}
