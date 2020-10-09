@@ -4,6 +4,7 @@
 	"description": "High-quality Pascal highlighting",
 	"version": "0.0.1",
 	"publisher": "theangryepicbanana",
+	"license": "MIT",
 	"engines": {
 		"vscode": "^1.47.3"
 	},
