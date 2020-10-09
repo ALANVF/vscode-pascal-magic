@@ -7,7 +7,7 @@ High-quality Pascal highlighting made by an actual Pascal programmer
 
 This extension provides snippets and extensive highlighting support for the Pascal programming language.
 
-![screenshot](./assets/example.png)
+![screenshot](https://raw.githubusercontent.com/ALANVF/vscode-pascal-magic/master/assets/example.png)
 
 
 ## Installation
