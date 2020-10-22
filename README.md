@@ -18,7 +18,7 @@ This extension provides snippets and extensive highlighting support for the Pasc
 
 ## Contributing
 
-I need to put [REON](https://github.com/ALANVF/reon) on NPM first :\(
+Please edit the [REON](https://github.com/ALANVF/reon) files instead of the JSON files
 
 
 ## Known issues

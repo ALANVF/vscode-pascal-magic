@@ -79,6 +79,16 @@
 	},
 	"unit": {
 		"prefix": "unitb",
-		"body": ["unit ${1:unitName};", "", "interface", "", "$0", "", "implementation", "", "end."]
+		"body": [
+			"unit ${1:unitName};",
+			"",
+			"interface",
+			"",
+			"$0",
+			"",
+			"implementation",
+			"",
+			"end."
+		]
 	}
 }

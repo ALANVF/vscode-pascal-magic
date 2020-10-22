@@ -1,5 +1,7 @@
+; There's... a slight chance that I like regex way too much...
+
 #(
-	; There's... a slight chance that I like regex way too much...
+	;@@ TODO: start using macros for lots of things
 
 	name "Pascal"
 	scopeName "source.pascal"

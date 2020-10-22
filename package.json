@@ -5,6 +5,10 @@
 	"version": "0.0.2",
 	"publisher": "theangryepicbanana",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ALANVF/vscode-pascal-magic.git"
+	},
 	"engines": {
 		"vscode": "^1.47.3"
 	},
@@ -63,7 +67,10 @@
 		]
 	},
 	"scripts": {
-		"compile-syntax": "~/Documents/reon/bin/reon tj syntaxes/pascal.reon",
-		"compile-snippets": "~/Documents/reon/bin/reon tj snippets/pascal.reon"
+		"compile-syntax": "reon-convert tj syntaxes/pascal.reon",
+		"compile-snippets": "reon-convert tj snippets/pascal.reon"
+	},
+	"devDependencies": {
+		"reon-convert": "^0.1.3"
 	}
 }
