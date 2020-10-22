@@ -2,18 +2,10 @@
 
 High-quality Pascal highlighting made by an actual Pascal programmer
 
-(Yes I still need to figure out how to put this on vscode's marketplace store, but this works for now.)
-
 
 This extension provides snippets and extensive highlighting support for the Pascal programming language.
 
 ![screenshot](https://raw.githubusercontent.com/ALANVF/vscode-pascal-magic/master/assets/example.png)
-
-
-## Installation
-
-1) Clone this repo and move it to `$HOME/.vscode/extensions`
-2) That should work
 
 
 ## Contributing
