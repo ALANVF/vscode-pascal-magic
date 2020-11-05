@@ -213,6 +213,50 @@
 			name "comment.pascal"
 		)
 
+		block-comment.parens #(
+			begin "\(\*"
+			beginCaptures #(
+				0 #(name "comment.pascal")
+			)
+
+			end "\*\)"
+			endCaptures #(
+				0 #(name "comment.pascal")
+			)
+
+			patterns [
+				#(include #block-comment.parens)
+				#(
+					match "[^^*]+"
+					name "comment.pascal"
+				)
+				#(
+					match "\*+(?!\))|\(+(?!\*)"
+					name "comment.pascal"
+				)
+			]
+		)
+
+		block-comment.braces #(
+			begin "\{"
+			beginCaptures #(
+				0 #(name "comment.pascal")
+			)
+
+			end "\}"
+			endCaptures #(
+				0 #(name "comment.pascal")
+			)
+
+			patterns [
+				#(include #block-comment.braces)
+				#(
+					match "[^^{}]+"
+					name "comment.pascal"
+				)
+			]
+		)
+
 		block-comment #(
 			patterns [
 				#(
@@ -227,12 +271,13 @@
 					)
 
 					patterns [
+						#(include #block-comment.parens)
 						#(
-							match "[^^*]+"
+							match "[^^(*]+"
 							name "comment.pascal"
 						)
 						#(
-							match "\*+(?!\))"
+							match "\*+(?!\))|\(+(?!\*)"
 							name "comment.pascal"
 						)
 					]
@@ -249,8 +294,9 @@
 					)
 
 					patterns [
+						#(include #block-comment.braces)
 						#(
-							match "[^^}]+"
+							match "[^^{}]+"
 							name "comment.pascal"
 						)
 					]
@@ -273,12 +319,13 @@
 					)
 
 					patterns [
+						#(include #block-comment.paren)
 						#(
-							match "[^^*]+"
+							match "[^^(*]+"
 							name "comment.pascal"
 						)
 						#(
-							match "\*+(?!\))"
+							match "\*+(?!\))|\(+(?!\*)"
 							name "comment.pascal"
 						)
 					]
@@ -297,8 +344,9 @@
 					)
 
 					patterns [
+						#(include #block-comment.braces)
 						#(
-							match "[^^}]+"
+							match "[^^{}]+"
 							name "comment.pascal"
 						)
 					]
@@ -835,7 +883,7 @@
 
 		keywords #(
 			match {(?xi)(?<!(?<!\.)\.|\&)(?<=\b)(?:
-					absolute|asm|assembler|at
+				absolute|asm|assembler|at
 				|case|const
 				|do|downto
 				|else
@@ -957,6 +1005,7 @@
 
 		;== BLOCKS ==;
 
+		;@@ TODO: make this better
 		case-of #(
 			begin "(?i)(?<!(?<!\.)\.|\&)(?<=\b)case(?=\b)"
 			beginCaptures #(

@@ -71,6 +71,6 @@
 		"compile-snippets": "reon-convert tj snippets/pascal.reon"
 	},
 	"devDependencies": {
-		"reon-convert": "^0.1.3"
+		"reon-convert": "^0.1.8"
 	}
 }

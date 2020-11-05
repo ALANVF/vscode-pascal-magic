@@ -334,6 +334,56 @@
 			"match": "//.*$",
 			"name": "comment.pascal"
 		},
+		"block-comment.parens": {
+			"begin": "\\(\\*",
+			"beginCaptures": {
+				"0": {
+					"name": "comment.pascal"
+				}
+			},
+			"end": "\\*\\)",
+			"endCaptures": {
+				"0": {
+					"name": "comment.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#block-comment.parens"
+				},
+				{
+					"match": "[^*]+",
+					"name": "comment.pascal"
+				},
+				{
+					"match": "\\*+(?!\\))|\\(+(?!\\*)",
+					"name": "comment.pascal"
+				}
+			]
+		},
+		"block-comment.braces": {
+			"begin": "\\{",
+			"beginCaptures": {
+				"0": {
+					"name": "comment.pascal"
+				}
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": {
+					"name": "comment.pascal"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#block-comment.braces"
+				},
+				{
+					"match": "[^{}]+",
+					"name": "comment.pascal"
+				}
+			]
+		},
 		"block-comment": {
 			"patterns": [
 				{
@@ -351,11 +401,14 @@
 					},
 					"patterns": [
 						{
-							"match": "[^*]+",
+							"include": "#block-comment.parens"
+						},
+						{
+							"match": "[^(*]+",
 							"name": "comment.pascal"
 						},
 						{
-							"match": "\\*+(?!\\))",
+							"match": "\\*+(?!\\))|\\(+(?!\\*)",
 							"name": "comment.pascal"
 						}
 					]
@@ -375,7 +428,10 @@
 					},
 					"patterns": [
 						{
-							"match": "[^}]+",
+							"include": "#block-comment.braces"
+						},
+						{
+							"match": "[^{}]+",
 							"name": "comment.pascal"
 						}
 					]
@@ -402,11 +458,14 @@
 					},
 					"patterns": [
 						{
-							"match": "[^*]+",
+							"include": "#block-comment.paren"
+						},
+						{
+							"match": "[^(*]+",
 							"name": "comment.pascal"
 						},
 						{
-							"match": "\\*+(?!\\))",
+							"match": "\\*+(?!\\))|\\(+(?!\\*)",
 							"name": "comment.pascal"
 						}
 					]
@@ -432,7 +491,10 @@
 					},
 					"patterns": [
 						{
-							"match": "[^}]+",
+							"include": "#block-comment.braces"
+						},
+						{
+							"match": "[^{}]+",
 							"name": "comment.pascal"
 						}
 					]
@@ -961,7 +1023,7 @@
 			]
 		},
 		"keywords": {
-			"match": "(?xi)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:\n\t\t\t\t\tabsolute|asm|assembler|at\n\t\t\t\t|case|const\n\t\t\t\t|do|downto\n\t\t\t\t|else\n\t\t\t\t|for\n\t\t\t\t|goto\n\t\t\t\t|if|implementation|inherited|inline|interface\n\t\t\t\t|label\n\t\t\t\t|object|of|otherwise\n\t\t\t\t|packed|program\n\t\t\t\t|raise|record|reintroduce|repeat\n\t\t\t\t|set\n\t\t\t\t|then|to|type\n\t\t\t\t|until|uses\n\t\t\t\t|var\n\t\t\t\t|while|with\n\t\t\t)(?=\\b)",
+			"match": "(?xi)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:\n\t\t\t\tabsolute|asm|assembler|at\n\t\t\t\t|case|const\n\t\t\t\t|do|downto\n\t\t\t\t|else\n\t\t\t\t|for\n\t\t\t\t|goto\n\t\t\t\t|if|implementation|inherited|inline|interface\n\t\t\t\t|label\n\t\t\t\t|object|of|otherwise\n\t\t\t\t|packed|program\n\t\t\t\t|raise|record|reintroduce|repeat\n\t\t\t\t|set\n\t\t\t\t|then|to|type\n\t\t\t\t|until|uses\n\t\t\t\t|var\n\t\t\t\t|while|with\n\t\t\t)(?=\\b)",
 			"name": "keyword.pascal"
 		},
 		"name": {

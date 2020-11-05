@@ -29,7 +29,6 @@ Please edit the [REON](https://github.com/ALANVF/reon) files instead of the JSON
 - Freestanding generic routines
 	- Need to add support for calls without `specialize`, but this is otherwise finished
 - This syntax: `function IEqualityComparer<T>.GetHashCode = GetHashCode2;`
-- Nested comments
 - Highlight type on right-hand side of `is` and `as` expressions
 - Highlight generic args in exprs, even if we don't know if it's a type or routine
 - Constant expressions in interface IDs should be allowed
