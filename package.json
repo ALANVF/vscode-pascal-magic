@@ -2,7 +2,7 @@
 	"name": "language-pascal",
 	"displayName": "Pascal magic",
 	"description": "High-quality Pascal highlighting",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"publisher": "theangryepicbanana",
 	"license": "MIT",
 	"repository": {
