@@ -2610,7 +2610,7 @@
 			]
 		},
 		"class-decl": {
-			"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:(?:packed\\s+)?class(?:\\s+(?:abstract|sealed))?(?!\\s+(?:of|helper)\\b|\\s*;)|objcclass(?:\\s+external)?)(?=\\b)",
+			"begin": "(?xi)\n\t\t\t\t(?<!(?<!\\.)\\.|\\&)\n\t\t\t\t(?<=\\b)\n\t\t\t\t(?:\n\t\t\t\t\t(?:packed\\s+)?\n\t\t\t\t\tclass\n\t\t\t\t\t(?:\n\t\t\t\t\t\t\\s+\n\t\t\t\t\t\t(?:abstract|sealed)\n\t\t\t\t\t)?\n\t\t\t\t\t(?!\n\t\t\t\t\t\t\\s+ (?:of|helper) \\b\n\t\t\t\t\t\t| \\s* (?:\n\t\t\t\t\t\t\t\\( [^()]* \\)\n\t\t\t\t\t\t\t\\s*\n\t\t\t\t\t\t)? ;\n\t\t\t\t\t)\n\t\t\t\t\t| objcclass (?: \\s+ external )?\n\t\t\t\t)\n\t\t\t\t(?=\\b)\n\t\t\t",
 			"beginCaptures": {
 				"0": {
 					"name": "keyword.pascal"
@@ -2645,6 +2645,15 @@
 			"patterns": [
 				{
 					"include": "#empty"
+				},
+				{
+					"begin": "(?=\\()",
+					"end": "(?=;)",
+					"patterns": [
+						{
+							"include": "#oop.inheritance"
+						}
+					]
 				},
 				{
 					"begin": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)of(?=\\b)",

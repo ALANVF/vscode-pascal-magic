@@ -1769,7 +1769,7 @@
 
 			patterns [
 				#(include #empty)
-				#(
+				#( ;-- Unsure if this is still needed?
 					match "(?i)(?<!(?<!\.)\.|\&)(?<=\b)specialize(?=\b)"
 					name "keyword.pascal"
 				)
@@ -2062,7 +2062,27 @@
 		)
 
 		class-decl #(
-			begin "(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:(?:packed\s+)?class(?:\s+(?:abstract|sealed))?(?!\s+(?:of|helper)\b|\s*;)|objcclass(?:\s+external)?)(?=\b)"
+			begin {(?xi)
+				(?<!(?<!\.)\.|\&)
+				(?<=\b)
+				(?:
+					(?:packed\s+)?
+					class
+					(?:
+						\s+
+						(?:abstract|sealed)
+					)?
+					(?!
+						\s+ (?:of|helper) \b
+						| \s* (?:
+							\( [^^()]* \)
+							\s*
+						)? ;
+					)
+					| objcclass (?: \s+ external )?
+				)
+				(?=\b)
+			}
 			beginCaptures #(
 				0 #(name "keyword.pascal")
 			)
@@ -2089,6 +2109,15 @@
 
 			patterns [
 				#(include #empty)
+				#(
+					begin "(?=\()"
+					
+					end "(?=;)"
+
+					patterns [
+						#(include #oop.inheritance)
+					]
+				)
 				#(
 					begin "(?i)(?<!(?<!\.)\.|\&)(?<=\b)of(?=\b)"
 					beginCaptures #(
