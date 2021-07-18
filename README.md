@@ -1,5 +1,7 @@
 # Pascal magic
 
+Note: This is an experimental branch for supporting [PascalABC.NET](http://pascalabc.net/en/)
+
 High-quality Pascal highlighting made by an actual Pascal programmer
 
 
@@ -37,3 +39,8 @@ Please edit the [REON](https://github.com/ALANVF/reon) files instead of the JSON
 - `cppclass` (idk what it is, but it's definitely a thing)
 - Codepage syntax for `string` types
 - Better highlighting for preprocessor directives
+
+
+## TODO (PascalABC.NET)
+
+- a lot of stuff

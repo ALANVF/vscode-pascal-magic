@@ -126,7 +126,7 @@
 		)
 
 		exprs.call-generic-fn #(
-			begin "((?<=\b)(?<!&)specialize\s+)(&?[a-zA-Z_]\w*(?=<\S))"
+			begin "(?i)((?<=\b)(?<!&)specialize\s+)(&?[a-zA-Z_]\w*(?=<\S))"
 			beginCaptures #(
 				1 #(name "keyword.pascal")
 				2 #(name "entity.name.function.pascal")
@@ -172,7 +172,7 @@
 				#(include #asm)
 				#(include #keywords)
 				#(include #semicolon)
-				#(include #name)
+				;#(include #name)
 			]
 		)
 
@@ -482,7 +482,7 @@
 					name "constant.numeric.pascal"
 				)
 				#(
-					match "(?:(?<=[\s=\(\)\[\]])[+-])?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(?=\b)"
+					match "(?:(?<=[\s=\(\[,])[+-])?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?(?=\b)"
 					name "constant.numeric.pascal"
 				)
 				#(
@@ -753,9 +753,9 @@
 				)
 				#(
 					begin {(?xi)
-						(?<=\b)((?:class\s+)?operator)
-						\s+
-						((?:[a-zA-Z_]\w*\s*\.\s*)*)
+						(?<=\b)((?:class\s+)?operator)(?=\b)
+						(\s+(?:[a-zA-Z_]\w*\s*\.\s*)+)?
+						\s*
 						(
 							\+      |add
 							|-      |subtract
@@ -784,7 +784,8 @@
 							|inc
 							|dec
 							|initialize|finalize|addref|copy
-						)(?=\b)
+						)
+						(?: (?<=\w)(?=\b) | (?<!\w)(?=[\s\(]) )
 					}
 					beginCaptures #(
 						1 #(name "keyword.pascal")
@@ -865,7 +866,7 @@
 		)
 
 		routine-return #(
-			begin "((?:&?[a-zA-Z_]\w*\s*)?)(:)"
+			begin "((?:&?[a-zA-Z_]\w*\s*)?)(:)(?!=)"
 			beginCaptures #(
 				1 #(name "variable.pascal")
 				2 #(name "operator.pascal")
@@ -986,11 +987,12 @@
 		)
 
 		type-anno #(
-			begin ":(?!=)"
+			begin ":(?!=)\s*"
 			beginCaptures #(
 				0 #(name "operator.pascal")
 			)
 
+			;end "(?<!\G)(?!<)"
 			end "(?<!:\s*)(?!<)"
 
 			patterns [
@@ -1222,7 +1224,7 @@
 				0 #(name "keyword.pascal")
 			)
 
-			end "(?i)end(?=\b)"
+			end "(?i)(?<=\b)end(?=\b)"
 			endCaptures #(
 				0 #(name "keyword.pascal")
 			)
@@ -1273,7 +1275,7 @@
 		)
 
 		basic-type.user-defined #(
-			match "(&?[a-zA-Z_]\w*(?<!(?i)(?<!(?<!\.)\.|\&)\b(?:array|set|record|object|class|interface|generic|specialize|procedure|function))(?:\.&?[a-zA-Z_]\w*)*)" ; add generics later lol
+			match "((?:&|\b)[a-zA-Z_]\w*(?=\b)(?<!(?i)(?<!(?<!\.)\.|\&)\b(?:array|set|file|record|object|class|interface|generic|specialize|procedure|function)\b)(?:\.&?[a-zA-Z_]\w*)*)(?=\b)" ; add generics later lol
 			captures #(
 				1 #(
 					patterns [
@@ -1312,7 +1314,7 @@
 				1 #(name "keyword.pascal")
 			)
 
-			end "((?:(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:is\s+nested|of\s+object))?)(?=\s*;)"
+			end "((?:(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:is\s+nested|of\s+object))?)(?=\s*[;,)])"
 			endCaptures #(
 				1 #(name "keyword.other.pascal")
 			)
@@ -1321,13 +1323,13 @@
 				#(include #empty)
 				#(include #routine-params)
 				#(
-					begin "((?:&?[a-zA-Z_]\w*\s*)?)(:)"
+					begin "((?:&?[a-zA-Z_]\w*\s*)?)(:)(?!=)"
 					beginCaptures #(
 						1 #(name "variable.pascal")
 						2 #(name "operator.pascal")
 					)
 
-					end "(?=(?:(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:is\s+nested|of\s+object))?\s*;)"
+					end "(?=(?:(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:is\s+nested|of\s+object))?\s*[;,)])"
 
 					patterns [
 						#(include #empty)
@@ -1504,16 +1506,58 @@
 				0 #(name "punctuation.definition.parameters.end.pascal")
 			)
 
+			contentName "@generic-params"
+
 			patterns [
 				#(include #empty)
-				#(include #colon)
-				#(include #semicolon)
-				#(include #comma)
 				#(
-					match "(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:record|class|object|interface|constructor)(?=\b)"
-					name "keyword.pascal"
+					begin "(?:&|\b)[a-zA-Z_]\w*"
+					beginCaptures [#(name "entity.name.type.parameter.pascal")]
+
+					end ";|(?=>)"
+					endCaptures [#(name "punctuation.separator.semicolon.pascal")]
+
+					patterns [
+						#(include #empty)
+						#(
+							begin ","
+							beginCaptures [#(name "punctuation.separator.comma.pascal")]
+
+							end "(?:&|\b)[a-zA-Z_]\w*"
+							endCaptures [#(name "entity.name.type.parameter.pascal")]
+
+							patterns [
+								#(include #empty)
+								#(include #invalid)
+							]
+						)
+						#(
+							begin ":"
+							beginCaptures [#(name "keyword.operator.pascal")]
+
+							end "(?=[;>])"
+
+							patterns [
+								#(include #empty)
+								#(include #comma)
+								#(
+									match "(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:record|class|object|interface|constructor)(?=\b)"
+									name "keyword.pascal"
+								)
+								#(include #type)
+								#(include #invalid)
+							]
+						)
+					]
 				)
-				#(include #type)
+				;#(include #colon)
+				;#(include #semicolon)
+				;#(include #comma)
+				;#(
+				;	match "(?i)(?<!(?<!\.)\.|\&)(?<=\b)(?:record|class|object|interface|constructor)(?=\b)"
+				;	name "keyword.pascal"
+				;)
+				;#(include #type)
 				#(include #invalid)
 			]
 		)
@@ -1609,7 +1653,7 @@
 				#(
 					begin "&?[a-zA-Z_]\w*"
 					beginCaptures #(
-						0 #(name "variable.pascal")
+						0 #(name "variable.property.pascal")
 					)
 
 					end "(?=;(?!\s*(?:read|write|index|stored|implements|(?:no)?default)\b))" ;@@ FIX
@@ -1787,6 +1831,7 @@
 				#(include #oop.visibility.protected)
 				#(include #oop.visibility.public)
 				#(include #routine)
+				#(include #block)
 				#(
 					match "(?i)(?<!(?<!\.)\.|\&)(?<=\b)class\s+(?=var\b)"
 					name "keyword.pascal"
@@ -1804,6 +1849,7 @@
 				#(include #oop.inheritance)
 				#(include #oop.visibility)
 				#(include #routine)
+				#(include #block)
 				#(
 					match "(?i)(?<!(?<!\.)\.|\&)(?<=\b)class\s+(?=(?:var|property)\b)"
 					name "keyword.pascal"
@@ -1822,7 +1868,7 @@
 		;== DECLS ==;
 
 		var-decl #(
-			begin "&?[a-zA-Z_]\w*"
+			begin "(&|\b)[a-zA-Z_]\w*(?=\b)"
 			beginCaptures #(
 				0 #(name "variable.pascal")
 			)
@@ -1845,7 +1891,7 @@
 			patterns [
 				#(include #empty)
 				#(
-					match "&?[a-zA-Z_]\w*"
+					match "(&|\b)[a-zA-Z_]\w*(?=\b)"
 					name "variable.pascal"
 				)
 				#(include #comma)
@@ -1874,6 +1920,7 @@
 						#(include #oop.visibility.private)
 						#(include #oop.visibility.public)
 						#(include #routine)
+						#(include #block)
 						#(include #oop.property)
 						#(include #types-section)
 						#(include #vars-section)
@@ -2615,7 +2662,7 @@
 				#(
 					begin "&?[a-zA-Z_]\w*"
 					beginCaptures #(
-						0 #(name "variable.pascal")
+						0 #(name "variable.property.pascal")
 					)
 
 					end "(?=;)"
@@ -2757,7 +2804,8 @@
 						#(include #invalid)
 					]
 				)
-				#(include #name)
+				;#(include #name)
+				#(match "\&?[a-zA-Z_]\w*" name "namespace.pascal")
 				#(include #dot)
 				#(include #invalid)
 			]
@@ -2930,7 +2978,8 @@
 				0 #(name "keyword.pascal")
 			)
 
-			end "(?i)(?<=\bend\s*)\."
+			;end "(?i)(?<=\bend\s*)\."
+			end "(?i)(?<=\bend)\s*\."
 			endCaptures #(
 				0 #(name "keyword.operator.pascal")
 			)
@@ -2943,7 +2992,7 @@
 						0 #(name "entity.name.type.pascal")
 					)
 
-					end "(?i)(?<=\bend\s*)(?=\.)"
+					end "(?i)(?<=\bend)\s*(?=\.)" ;"(?i)(?<=\bend\s*)(?=\.)"
 
 					patterns [
 						#(include #empty)
@@ -2971,7 +3020,7 @@
 								0 #(name "punctuation.terminator.pascal")
 							)
 
-							end "(?i)(?<=\bend\s*)(?=\.)"
+							end "(?i)(?<=\bend)\s*(?=\.)" ;"(?i)(?<=\bend\s*)(?=\.)"
 
 							patterns [
 								#(include #empty)
@@ -2992,7 +3041,8 @@
 				0 #(name "keyword.pascal")
 			)
 
-			end "(?i)(?<=\bend\s*)\."
+			;end "(?i)(?<=\bend\s*)\."
+			end "(?i)(?<=\bend)\s*\."
 			endCaptures #(
 				0 #(name "keyword.operator.pascal")
 			)
@@ -3005,7 +3055,7 @@
 						0 #(name "entity.name.type.pascal")
 					)
 
-					end "(?i)(?<=\bend\s*)(?=\.)"
+					end "(?i)(?<=\bend)\s*(?=\.)" ;"(?i)(?<=\bend\s*)(?=\.)"
 
 					patterns [
 						#(include #empty)
@@ -3033,7 +3083,7 @@
 								0 #(name "punctuation.terminator.pascal")
 							)
 
-							end "(?i)(?<=\bend\s*)(?=\.)"
+							end "(?i)(?<=\bend)\s*(?=\.)" ;"(?i)(?<=\bend\s*)(?=\.)"
 
 							patterns [
 								#(include #empty)

@@ -1,0 +1,1 @@
+declare module "syntaxes/pascal.json";

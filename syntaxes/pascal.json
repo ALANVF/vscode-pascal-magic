@@ -180,7 +180,7 @@
 			]
 		},
 		"exprs.call-generic-fn": {
-			"begin": "((?<=\\b)(?<!&)specialize\\s+)(&?[a-zA-Z_]\\w*(?=<\\S))",
+			"begin": "(?i)((?<=\\b)(?<!&)specialize\\s+)(&?[a-zA-Z_]\\w*(?=<\\S))",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.pascal"
@@ -271,9 +271,6 @@
 				},
 				{
 					"include": "#semicolon"
-				},
-				{
-					"include": "#name"
 				}
 			]
 		},
@@ -592,7 +589,7 @@
 					"name": "constant.numeric.pascal"
 				},
 				{
-					"match": "(?:(?<=[\\s=\\(\\)\\[\\]])[+-])?\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?(?=\\b)",
+					"match": "(?:(?<=[\\s=\\(\\[,])[+-])?\\d+(?:\\.\\d+)?(?:[eE][+-]?\\d+)?(?=\\b)",
 					"name": "constant.numeric.pascal"
 				},
 				{
@@ -888,7 +885,7 @@
 					]
 				},
 				{
-					"begin": "(?xi)\n\t\t\t\t\t\t(?<=\\b)((?:class\\s+)?operator)\n\t\t\t\t\t\t\\s+\n\t\t\t\t\t\t((?:[a-zA-Z_]\\w*\\s*\\.\\s*)*)\n\t\t\t\t\t\t(\n\t\t\t\t\t\t\t\\+      |add\n\t\t\t\t\t\t\t|-      |subtract\n\t\t\t\t\t\t\t|\\*     |multiply\n\t\t\t\t\t\t\t|/      |divide\n\t\t\t\t\t\t\t|\\*\\*   |power\n\t\t\t\t\t\t\t|><     |symmetricaldifference\n\t\t\t\t\t\t\t|=      |equal\n\t\t\t\t\t\t\t|<      |lessthan\n\t\t\t\t\t\t\t|<=     |lessthanorequal\n\t\t\t\t\t\t\t|>      |greaterthan\n\t\t\t\t\t\t\t|>=     |greaterthanorequal\n\t\t\t\t\t\t\t|<>     |notequal\n\t\t\t\t\t\t\t|:=     |assign\n\t\t\t\t\t\t\t|shr    |rightshift\n\t\t\t\t\t\t\t|shl    |leftshift\n\t\t\t\t\t\t\t|div    |intdivide\n\t\t\t\t\t\t\t|mod    |modulus\n\t\t\t\t\t\t\t|and    |bitwiseand|logicaland\n\t\t\t\t\t\t\t|or     |bitwiseor |logicalor\n\t\t\t\t\t\t\t|xor    |bitwisexor\n\t\t\t\t\t\t\t|not    |bitwisenot|logicalnot\n\t\t\t\t\t\t\t|explicit\n\t\t\t\t\t\t\t|in\n\t\t\t\t\t\t\t|enumerator\n\t\t\t\t\t\t\t|inc\n\t\t\t\t\t\t\t|dec\n\t\t\t\t\t\t\t|initialize|finalize|addref|copy\n\t\t\t\t\t\t)(?=\\b)\n\t\t\t\t\t",
+					"begin": "(?xi)\n\t\t\t\t\t\t(?<=\\b)((?:class\\s+)?operator)(?=\\b)\n\t\t\t\t\t\t(\\s+(?:[a-zA-Z_]\\w*\\s*\\.\\s*)+)?\n\t\t\t\t\t\t\\s*\n\t\t\t\t\t\t(\n\t\t\t\t\t\t\t\\+      |add\n\t\t\t\t\t\t\t|-      |subtract\n\t\t\t\t\t\t\t|\\*     |multiply\n\t\t\t\t\t\t\t|/      |divide\n\t\t\t\t\t\t\t|\\*\\*   |power\n\t\t\t\t\t\t\t|><     |symmetricaldifference\n\t\t\t\t\t\t\t|=      |equal\n\t\t\t\t\t\t\t|<      |lessthan\n\t\t\t\t\t\t\t|<=     |lessthanorequal\n\t\t\t\t\t\t\t|>      |greaterthan\n\t\t\t\t\t\t\t|>=     |greaterthanorequal\n\t\t\t\t\t\t\t|<>     |notequal\n\t\t\t\t\t\t\t|:=     |assign\n\t\t\t\t\t\t\t|shr    |rightshift\n\t\t\t\t\t\t\t|shl    |leftshift\n\t\t\t\t\t\t\t|div    |intdivide\n\t\t\t\t\t\t\t|mod    |modulus\n\t\t\t\t\t\t\t|and    |bitwiseand|logicaland\n\t\t\t\t\t\t\t|or     |bitwiseor |logicalor\n\t\t\t\t\t\t\t|xor    |bitwisexor\n\t\t\t\t\t\t\t|not    |bitwisenot|logicalnot\n\t\t\t\t\t\t\t|explicit\n\t\t\t\t\t\t\t|in\n\t\t\t\t\t\t\t|enumerator\n\t\t\t\t\t\t\t|inc\n\t\t\t\t\t\t\t|dec\n\t\t\t\t\t\t\t|initialize|finalize|addref|copy\n\t\t\t\t\t\t)\n\t\t\t\t\t\t(?: (?<=\\w)(?=\\b) | (?<!\\w)(?=[\\s\\(]) )\n\t\t\t\t\t",
 					"beginCaptures": {
 						"1": {
 							"name": "keyword.pascal"
@@ -1000,7 +997,7 @@
 			]
 		},
 		"routine-return": {
-			"begin": "((?:&?[a-zA-Z_]\\w*\\s*)?)(:)",
+			"begin": "((?:&?[a-zA-Z_]\\w*\\s*)?)(:)(?!=)",
 			"beginCaptures": {
 				"1": {
 					"name": "variable.pascal"
@@ -1108,7 +1105,7 @@
 			]
 		},
 		"type-anno": {
-			"begin": ":(?!=)",
+			"begin": ":(?!=)\\s*",
 			"beginCaptures": {
 				"0": {
 					"name": "operator.pascal"
@@ -1448,7 +1445,7 @@
 					"name": "keyword.pascal"
 				}
 			},
-			"end": "(?i)end(?=\\b)",
+			"end": "(?i)(?<=\\b)end(?=\\b)",
 			"endCaptures": {
 				"0": {
 					"name": "keyword.pascal"
@@ -1505,7 +1502,7 @@
 			"name": "entity.name.type.pascal"
 		},
 		"basic-type.user-defined": {
-			"match": "(&?[a-zA-Z_]\\w*(?<!(?i)(?<!(?<!\\.)\\.|\\&)\\b(?:array|set|record|object|class|interface|generic|specialize|procedure|function))(?:\\.&?[a-zA-Z_]\\w*)*)",
+			"match": "((?:&|\\b)[a-zA-Z_]\\w*(?=\\b)(?<!(?i)(?<!(?<!\\.)\\.|\\&)\\b(?:array|set|file|record|object|class|interface|generic|specialize|procedure|function)\\b)(?:\\.&?[a-zA-Z_]\\w*)*)(?=\\b)",
 			"captures": {
 				"1": {
 					"patterns": [
@@ -1551,7 +1548,7 @@
 					"name": "keyword.pascal"
 				}
 			},
-			"end": "((?:(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:is\\s+nested|of\\s+object))?)(?=\\s*;)",
+			"end": "((?:(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:is\\s+nested|of\\s+object))?)(?=\\s*[;,)])",
 			"endCaptures": {
 				"1": {
 					"name": "keyword.other.pascal"
@@ -1565,7 +1562,7 @@
 					"include": "#routine-params"
 				},
 				{
-					"begin": "((?:&?[a-zA-Z_]\\w*\\s*)?)(:)",
+					"begin": "((?:&?[a-zA-Z_]\\w*\\s*)?)(:)(?!=)",
 					"beginCaptures": {
 						"1": {
 							"name": "variable.pascal"
@@ -1574,7 +1571,7 @@
 							"name": "operator.pascal"
 						}
 					},
-					"end": "(?=(?:(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:is\\s+nested|of\\s+object))?\\s*;)",
+					"end": "(?=(?:(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:is\\s+nested|of\\s+object))?\\s*[;,)])",
 					"patterns": [
 						{
 							"include": "#empty"
@@ -1801,25 +1798,78 @@
 					"name": "punctuation.definition.parameters.end.pascal"
 				}
 			},
+			"contentName": "@generic-params",
 			"patterns": [
 				{
 					"include": "#empty"
 				},
 				{
-					"include": "#colon"
-				},
-				{
-					"include": "#semicolon"
-				},
-				{
-					"include": "#comma"
-				},
-				{
-					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:record|class|object|interface|constructor)(?=\\b)",
-					"name": "keyword.pascal"
-				},
-				{
-					"include": "#type"
+					"begin": "(?:&|\\b)[a-zA-Z_]\\w*",
+					"beginCaptures": [
+						{
+							"name": "entity.name.type.parameter.pascal"
+						}
+					],
+					"end": ";|(?=>)",
+					"endCaptures": [
+						{
+							"name": "punctuation.separator.semicolon.pascal"
+						}
+					],
+					"patterns": [
+						{
+							"include": "#empty"
+						},
+						{
+							"begin": ",",
+							"beginCaptures": [
+								{
+									"name": "punctuation.separator.comma.pascal"
+								}
+							],
+							"end": "(?:&|\\b)[a-zA-Z_]\\w*",
+							"endCaptures": [
+								{
+									"name": "entity.name.type.parameter.pascal"
+								}
+							],
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						},
+						{
+							"begin": ":",
+							"beginCaptures": [
+								{
+									"name": "keyword.operator.pascal"
+								}
+							],
+							"end": "(?=[;>])",
+							"patterns": [
+								{
+									"include": "#empty"
+								},
+								{
+									"include": "#comma"
+								},
+								{
+									"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)(?:record|class|object|interface|constructor)(?=\\b)",
+									"name": "keyword.pascal"
+								},
+								{
+									"include": "#type"
+								},
+								{
+									"include": "#invalid"
+								}
+							]
+						}
+					]
 				},
 				{
 					"include": "#invalid"
@@ -1943,7 +1993,7 @@
 					"begin": "&?[a-zA-Z_]\\w*",
 					"beginCaptures": {
 						"0": {
-							"name": "variable.pascal"
+							"name": "variable.property.pascal"
 						}
 					},
 					"end": "(?=;(?!\\s*(?:read|write|index|stored|implements|(?:no)?default)\\b))",
@@ -2201,6 +2251,9 @@
 					"include": "#routine"
 				},
 				{
+					"include": "#block"
+				},
+				{
 					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)class\\s+(?=var\\b)",
 					"name": "keyword.pascal"
 				},
@@ -2233,6 +2286,9 @@
 					"include": "#routine"
 				},
 				{
+					"include": "#block"
+				},
+				{
 					"match": "(?i)(?<!(?<!\\.)\\.|\\&)(?<=\\b)class\\s+(?=(?:var|property)\\b)",
 					"name": "keyword.pascal"
 				},
@@ -2260,7 +2316,7 @@
 			]
 		},
 		"var-decl": {
-			"begin": "&?[a-zA-Z_]\\w*",
+			"begin": "(&|\\b)[a-zA-Z_]\\w*(?=\\b)",
 			"beginCaptures": {
 				"0": {
 					"name": "variable.pascal"
@@ -2277,7 +2333,7 @@
 					"include": "#empty"
 				},
 				{
-					"match": "&?[a-zA-Z_]\\w*",
+					"match": "(&|\\b)[a-zA-Z_]\\w*(?=\\b)",
 					"name": "variable.pascal"
 				},
 				{
@@ -2324,6 +2380,9 @@
 						},
 						{
 							"include": "#routine"
+						},
+						{
+							"include": "#block"
 						},
 						{
 							"include": "#oop.property"
@@ -3294,7 +3353,7 @@
 					"begin": "&?[a-zA-Z_]\\w*",
 					"beginCaptures": {
 						"0": {
-							"name": "variable.pascal"
+							"name": "variable.property.pascal"
 						}
 					},
 					"end": "(?=;)",
@@ -3490,7 +3549,8 @@
 					]
 				},
 				{
-					"include": "#name"
+					"match": "\\&?[a-zA-Z_]\\w*",
+					"name": "namespace.pascal"
 				},
 				{
 					"include": "#dot"
@@ -3724,7 +3784,7 @@
 					"name": "keyword.pascal"
 				}
 			},
-			"end": "(?i)(?<=\\bend\\s*)\\.",
+			"end": "(?i)(?<=\\bend)\\s*\\.",
 			"endCaptures": {
 				"0": {
 					"name": "keyword.operator.pascal"
@@ -3741,7 +3801,7 @@
 							"name": "entity.name.type.pascal"
 						}
 					},
-					"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+					"end": "(?i)(?<=\\bend)\\s*(?=\\.)",
 					"patterns": [
 						{
 							"include": "#empty"
@@ -3781,7 +3841,7 @@
 									"name": "punctuation.terminator.pascal"
 								}
 							},
-							"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+							"end": "(?i)(?<=\\bend)\\s*(?=\\.)",
 							"patterns": [
 								{
 									"include": "#empty"
@@ -3811,7 +3871,7 @@
 					"name": "keyword.pascal"
 				}
 			},
-			"end": "(?i)(?<=\\bend\\s*)\\.",
+			"end": "(?i)(?<=\\bend)\\s*\\.",
 			"endCaptures": {
 				"0": {
 					"name": "keyword.operator.pascal"
@@ -3828,7 +3888,7 @@
 							"name": "entity.name.type.pascal"
 						}
 					},
-					"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+					"end": "(?i)(?<=\\bend)\\s*(?=\\.)",
 					"patterns": [
 						{
 							"include": "#empty"
@@ -3868,7 +3928,7 @@
 									"name": "punctuation.terminator.pascal"
 								}
 							},
-							"end": "(?i)(?<=\\bend\\s*)(?=\\.)",
+							"end": "(?i)(?<=\\bend)\\s*(?=\\.)",
 							"patterns": [
 								{
 									"include": "#empty"

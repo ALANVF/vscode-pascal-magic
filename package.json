@@ -24,6 +24,10 @@
 		"fpc",
 		"objfpc"
 	],
+	"activationEvents": [
+		"onLanguage:pascal"
+	],
+	"main": "./out/extension",
 	"contributes": {
 		"languages": [
 			{
@@ -52,7 +56,7 @@
 				"configuration": "./language-configuration.json"
 			}
 		],
-		"grammars": [
+		"old-grammars": [
 			{
 				"language": "pascal",
 				"scopeName": "source.pascal",
@@ -64,13 +68,41 @@
 				"language": "pascal",
 				"path": "./snippets/pascal.json"
 			}
+		],
+		"semanticTokenScopes": [
+			{
+				"language": "pascal",
+				"scopes": {
+					"keyword-operator": [
+						"keyword.operator.pascal"
+					],
+					"constant": [
+						"constant.language.pascal"
+					],
+					"label": [
+						"variable.label.pascal"
+					],
+					"invalid": [
+						"invalid.illegal.pascal"
+					]
+				}
+			}
 		]
 	},
 	"scripts": {
 		"compile-syntax": "reon-convert tj syntaxes/pascal.reon",
-		"compile-snippets": "reon-convert tj snippets/pascal.reon"
+		"compile-snippets": "reon-convert tj snippets/pascal.reon",
+		"compile-ts": "tsc -p ."
+	},
+	"dependencies": {
+		"@types/vscode": "^1.52.0",
+		"onigasm": "^2.2.5",
+		"vscode-oniguruma": "^1.4.0",
+		"vscode-textmate": "^5.2.0"
 	},
 	"devDependencies": {
-		"reon-convert": "^0.1.8"
+		"@types/node": "12.12.2",
+		"reon-convert": "^0.1.13",
+		"typescript": "^4.3.5"
 	}
 }

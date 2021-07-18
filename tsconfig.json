@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"target": "ES6",
+		"outDir": "out",
+		"lib": ["DOM", "ES6"],
+		//"rootDir": "src",
+		//"rootDirs": ["src", "syntaxes"],
+		//"strict": true,
+		"noEmitOnError": true,
+		"strictNullChecks": true,
+		"resolveJsonModule": true
+	},
+	"exclude": [
+		"node_modules",
+		"syntaxes",
+		"out"
+	]
+}

@@ -1,4 +1,5 @@
+node_modules
 syntaxes/pascal.reon
 snippets/pascal.reon
 tests
-node_modules
+src
